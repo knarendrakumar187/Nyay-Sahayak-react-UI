@@ -44,7 +44,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                         >
                             <img src="/logo.png" alt="Nyay Sahayak" className="w-full h-full object-cover" />
                         </motion.div>
-                        <span className="font-display text-xl tracking-tight text-white group-hover:text-teal-100 transition-colors">
+                        <span className="font-display text-xl tracking-normal font-semibold text-white group-hover:text-teal-100 transition-colors">
                             Nyay Sahayak
                         </span>
                     </Link>

@@ -40,10 +40,10 @@ export default {
         }
       },
       fontFamily: {
-        legal: ['Instrument Serif', 'Georgia', 'serif'],
+        legal: ['Outfit', 'system-ui', 'sans-serif'],
         tech: ['Manrope', 'sans-serif'],
         body: ['Manrope', 'sans-serif'],
-        display: ['Instrument Serif', 'Georgia', 'serif'],
+        display: ['Outfit', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

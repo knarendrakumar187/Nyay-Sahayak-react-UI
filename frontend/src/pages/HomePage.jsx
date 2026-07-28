@@ -73,7 +73,7 @@ const HomePage = () => {
                     >
                         <motion.p
                             variants={fadeUp}
-                            className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.25rem] font-normal tracking-tight text-white mb-5 leading-[1.05]"
+                            className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.25rem] font-normal tracking-normal text-white mb-5 leading-[1.05]"
                         >
                             Nyay Sahayak
                         </motion.p>
@@ -123,7 +123,7 @@ const HomePage = () => {
                         className="max-w-2xl mb-14"
                     >
                         <p className="text-sm font-semibold uppercase tracking-[0.18em] text-teal-800 dark:text-teal-400 mb-3">Capabilities</p>
-                        <h2 className="font-display text-3xl md:text-5xl font-normal text-ink dark:text-white tracking-tight mb-4">
+                        <h2 className="font-display text-3xl md:text-5xl font-normal text-ink dark:text-white tracking-normal mb-4">
                             Built for real legal work
                         </h2>
                         <p className="text-ink-mute dark:text-slate-400 text-lg leading-relaxed">
@@ -186,7 +186,7 @@ const HomePage = () => {
                         className="max-w-2xl mb-16"
                     >
                         <p className="text-sm font-semibold uppercase tracking-[0.18em] text-teal-800 dark:text-teal-400 mb-3">How it works</p>
-                        <h2 className="font-display text-3xl md:text-5xl font-normal text-ink dark:text-white tracking-tight mb-4">
+                        <h2 className="font-display text-3xl md:text-5xl font-normal text-ink dark:text-white tracking-normal mb-4">
                             Three steps to clarity
                         </h2>
                         <p className="text-ink-mute dark:text-slate-400 text-lg">
@@ -238,7 +238,7 @@ const HomePage = () => {
                             variants={fadeUp}
                         >
                             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-teal-800 dark:text-teal-400 mb-3">Why us</p>
-                            <h2 className="font-display text-3xl md:text-5xl font-normal text-ink dark:text-white tracking-tight mb-5">
+                            <h2 className="font-display text-3xl md:text-5xl font-normal text-ink dark:text-white tracking-normal mb-5">
                                 Why Nyay Sahayak
                             </h2>
                             <p className="text-ink-mute dark:text-slate-400 text-lg leading-relaxed mb-8">

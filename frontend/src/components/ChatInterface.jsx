@@ -387,7 +387,7 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
               )}
             </div>
 
-            <h2 className="font-display text-3xl sm:text-3xl md:text-4xl font-normal text-ink dark:text-white mb-1.5 md:mb-2 tracking-normal leading-snug">
+            <h2 className="font-display text-3xl sm:text-3xl md:text-4xl font-semibold text-ink dark:text-white mb-1.5 md:mb-2 tracking-normal leading-snug">
               {greeting}, {user?.name?.split(' ')[0] || 'Citizen'}
             </h2>
             <p className="text-sm md:text-base text-ink-mute dark:text-slate-400 mb-5 md:mb-8 max-w-md px-2">

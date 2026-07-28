@@ -39,7 +39,7 @@ const BootScreen = ({ onComplete }) => {
         </motion.div>
 
         <motion.h1
-          className="font-display text-3xl md:text-4xl text-white tracking-tight mb-8"
+          className="font-display text-3xl md:text-4xl text-white tracking-normal font-semibold mb-8"
           initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ delay: 0.15, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}

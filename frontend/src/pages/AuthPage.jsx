@@ -128,7 +128,7 @@ const AuthPage = ({ handleGoogleLogin }) => {
                         <div className="w-11 h-11 rounded-xl overflow-hidden shadow-lift">
                             <img src="/logo.png" alt="Nyay Sahayak" className="w-full h-full object-cover" />
                         </div>
-                        <h1 className="font-display text-3xl tracking-tight text-ink dark:text-white">
+                        <h1 className="font-display text-3xl tracking-normal font-semibold text-ink dark:text-white">
                             Nyay Sahayak
                         </h1>
                     </motion.div>

@@ -113,7 +113,7 @@ const GovServices = () => {
   return (
     <div className="h-full overflow-y-auto p-6 md:p-8 scrollbar-hide bg-background-light dark:bg-bg-deep">
       <div className="mb-8">
-        <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-normal text-ink dark:text-white mb-2 tracking-normal flex items-center gap-2.5 md:gap-3 leading-snug">
+        <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-semibold text-ink dark:text-white mb-2 tracking-normal flex items-center gap-2.5 md:gap-3 leading-snug">
           <Globe className="text-teal-800 dark:text-teal-300 w-7 h-7 md:w-8 md:h-8 shrink-0" />
           Digital Legal Seva
         </h1>

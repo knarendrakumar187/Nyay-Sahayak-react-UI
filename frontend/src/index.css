@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -47,22 +47,10 @@
       linear-gradient(180deg, #070C12 0%, #0B121A 100%);
   }
 
-  h1, h2, h3, .font-display {
+  h1, h2, h3, h4, .font-display, .font-legal {
+    font-family: 'Outfit', system-ui, sans-serif;
     letter-spacing: 0.01em;
-    font-weight: 400;
-  }
-
-  /* Avoid fake-bold + negative tracking — looks compressed on small screens */
-  @media (max-width: 767px) {
-    h1, h2, h3, .font-display {
-      letter-spacing: 0.02em;
-    }
-  }
-
-  @media (min-width: 768px) {
-    h1, h2, h3, .font-display {
-      letter-spacing: 0;
-    }
+    font-synthesis: none;
   }
 
   .light .bg-bg-deep { background-color: #F4F7F9 !important; }
