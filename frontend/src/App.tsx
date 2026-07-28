@@ -225,7 +225,7 @@ function App() {
       email: "",
       photo: "",
       role: "Citizen",
-      language: "Hinglish",
+      language: "English",
       detailLevel: "Detailed",
       state: "India (General)",
       voiceAssistantEnabled: true
@@ -236,6 +236,10 @@ function App() {
   const loading = reportLoading || isStreaming;
 
   useEffect(() => {
+    if (user.language !== 'English') {
+      setUser((prev) => ({ ...prev, language: 'English' }));
+      return;
+    }
     localStorage.setItem('nyay_user', JSON.stringify(user));
   }, [user]);
 

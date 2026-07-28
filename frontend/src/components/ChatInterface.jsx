@@ -204,32 +204,12 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
       const voices = window.speechSynthesis.getVoices();
 
       let selectedVoice = null;
-      const userLanguage = user?.language || 'Hinglish';
-
+      // App is English-only
       if (voices.length > 0) {
-        if (userLanguage === 'Hindi') {
-          selectedVoice = voices.find(v => v.lang === 'hi-IN');
-          if (!selectedVoice) selectedVoice = voices.find(v => v.lang.startsWith('hi'));
-        } else if (userLanguage === 'English') {
-          selectedVoice = voices.find(v => v.lang === 'en-IN');
-          if (!selectedVoice) selectedVoice = voices.find(v => v.lang === 'en-US');
-          if (!selectedVoice) selectedVoice = voices.find(v => v.lang.startsWith('en'));
-        } else {
-          selectedVoice = voices.find(v => v.lang === 'en-IN');
-          if (!selectedVoice) selectedVoice = voices.find(v => v.lang === 'hi-IN');
-        }
-
-        if (!selectedVoice) {
-          selectedVoice = voices.find(v =>
-            v.name.toLowerCase().includes('india') ||
-            v.name.toLowerCase().includes('hindi') ||
-            v.lang.includes('IN')
-          );
-        }
-
-        if (!selectedVoice) {
-          selectedVoice = voices[0];
-        }
+        selectedVoice = voices.find(v => v.lang === 'en-IN')
+          || voices.find(v => v.lang === 'en-US')
+          || voices.find(v => v.lang.startsWith('en'))
+          || voices[0];
       }
 
       if (selectedVoice) {

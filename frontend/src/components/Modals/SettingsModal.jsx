@@ -99,14 +99,11 @@ const SettingsModal = ({ user, setUser, onClose, onLogout, theme, setTheme }) =>
                   </label>
                   <select
                     name="language"
-                    value={user.language}
-                    onChange={handleChange}
-                    className="w-full bg-black/40 border border-white/10 rounded-xl p-3.5 text-slate-200 focus:border-accent-gold outline-none shadow-inner appearance-none"
+                    value="English"
+                    disabled
+                    className="w-full bg-black/40 border border-white/10 rounded-xl p-3.5 text-slate-200 outline-none shadow-inner appearance-none opacity-80 cursor-not-allowed"
                   >
-                    <option value="Hinglish">Hinglish</option>
-                    <option value="Hindi">Hindi</option>
                     <option value="English">English</option>
-                    <option value="Marathi">Marathi</option>
                   </select>
                 </div>
               </div>
