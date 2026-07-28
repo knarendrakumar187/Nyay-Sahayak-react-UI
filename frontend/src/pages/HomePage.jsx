@@ -222,7 +222,7 @@ const HomePage = () => {
                                     whileInView={{ opacity: 1, scale: 1 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: 0.15 + i * 0.12, duration: 0.5 }}
-                                    className="font-display text-6xl font-normal text-teal-700/[0.12] dark:text-teal-300/15 absolute -top-5 left-0 select-none"
+                                    className="font-display text-6xl font-normal text-teal-800/40 dark:text-teal-200/45 absolute -top-5 left-0 select-none"
                                 >
                                     {item.step}
                                 </motion.span>

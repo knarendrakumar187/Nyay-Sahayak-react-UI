@@ -215,7 +215,7 @@ function App() {
 
   // Theme State - Load on app start
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('theme') || 'light';
+    return localStorage.getItem('theme') || 'dark';
   });
 
   // Apply theme on load and when changed
