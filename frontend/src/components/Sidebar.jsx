@@ -127,7 +127,12 @@ const Sidebar = ({ mode, setMode, user, onOpenSettings, onLoadChat, isOpen, onCl
                 {/* Header */}
                 <div className={`p-4 md:p-5 border-b border-slate-200 dark:border-white/5 flex items-center gap-2 shrink-0 ${isCollapsed ? 'justify-center' : 'justify-between'} transition-all duration-300`}>
                     {!isCollapsed && (
-                        <div className="flex items-center gap-3 overflow-hidden min-w-0 flex-1">
+                        <button
+                            type="button"
+                            onClick={() => { onOpenSettings?.(); onClose?.(); }}
+                            className="flex items-center gap-3 overflow-hidden min-w-0 flex-1 text-left rounded-xl p-1 -ml-1 active:bg-slate-100 dark:active:bg-white/5"
+                            aria-label="Configure Profile"
+                        >
                             <div className="relative w-10 h-10 rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 flex items-center justify-center shrink-0 bg-teal-700 text-white font-semibold text-sm">
                                 {user.photo ? (
                                     <img
@@ -146,7 +151,7 @@ const Sidebar = ({ mode, setMode, user, onOpenSettings, onLoadChat, isOpen, onCl
                                 <h3 className="font-semibold text-ink dark:text-slate-100 truncate text-sm">{user.name}</h3>
                                 <p className="text-[11px] text-teal-800 dark:text-teal-400 truncate font-medium uppercase tracking-wider">{user.role}</p>
                             </div>
-                        </div>
+                        </button>
                     )}
 
                     {/* Collapse Toggle (Desktop) */}

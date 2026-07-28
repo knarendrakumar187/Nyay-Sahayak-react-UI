@@ -112,7 +112,12 @@ const AnimatedRoutes = ({ isAuthenticated, handleGoogleLogin, appProps }) => {
                         </span>
                       </span>
                     </div>
-                    <div className="w-8 h-8 rounded-xl overflow-hidden border border-slate-200 dark:border-white/15 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => appProps.setIsSettingsOpen(true)}
+                      className="w-9 h-9 rounded-xl overflow-hidden border border-slate-200 dark:border-white/15 shrink-0 active:scale-95 transition-transform"
+                      aria-label="Configure Profile"
+                    >
                       {appProps.user.photo ? (
                         <img src={appProps.user.photo} alt="User" referrerPolicy="no-referrer" className="w-full h-full object-cover" />
                       ) : (
@@ -120,7 +125,7 @@ const AnimatedRoutes = ({ isAuthenticated, handleGoogleLogin, appProps }) => {
                           {appProps.user.name[0]}
                         </div>
                       )}
-                    </div>
+                    </button>
                   </div>
 
                   {/* Render Content Based on Mode */}

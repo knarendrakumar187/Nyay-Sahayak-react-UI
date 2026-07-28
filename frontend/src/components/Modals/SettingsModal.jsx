@@ -14,14 +14,16 @@ const SettingsModal = ({ user, setUser, onClose, onLogout, theme, setTheme }) =>
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-[#0a0e1a]/80 backdrop-blur-md z-50 flex justify-end"
+        className="fixed inset-0 bg-[#0a0e1a]/80 backdrop-blur-md z-[90] flex justify-end"
+        onClick={onClose}
       >
         <motion.div 
           initial={{ x: '100%' }}
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          className="bg-bg-panel backdrop-blur-xl border-l border-white/10 w-full max-w-md h-full shadow-2xl flex flex-col relative overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+          className="bg-bg-panel backdrop-blur-xl border-l border-white/10 w-full max-w-md h-full max-h-[100dvh] shadow-2xl flex flex-col relative overflow-hidden"
         >
           {/* Ambient Glows */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-accent-gold/5 rounded-full blur-[80px] pointer-events-none" />
