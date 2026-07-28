@@ -64,7 +64,7 @@ export const getMenuForRole = (role) => {
     return {
       id: item.id,
       label: item.label,
-      icon: <Icon size={20} />,
+      icon: React.createElement(Icon, { size: 20 }),
     };
   });
 };
