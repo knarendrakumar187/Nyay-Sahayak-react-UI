@@ -16,6 +16,7 @@ import { auth, provider, db } from './firebase';
 import { signInWithPopup, signOut } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import API_BASE_URL from './config/api';
+import { canAccessMode, defaultModeForRole } from './config/roleAccess';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children, isAuthenticated }) => {
@@ -272,20 +273,14 @@ function App() {
   const { generateLegalNotice } = useLegalAI();
   const loading = reportLoading || isStreaming;
 
-  // Keep mode valid for the selected role (e.g. FIR is Police-only)
+  // Keep mode valid for the selected role (FIR is Police-only)
   useEffect(() => {
-    const role = user.role || 'Citizen';
-    const allowed = {
-      chat: true,
-      report: role === 'Police',
-      'ipc-bns': ['Advocate', 'Police', 'Student'].includes(role),
-      digital: ['Citizen', 'Advocate', 'Police'].includes(role),
-    };
-    if (!allowed[mode]) {
-      setMode('chat');
+    if (!user.roleSelected || !user.role) return;
+    if (!canAccessMode(user.role, mode)) {
+      setMode(defaultModeForRole(user.role));
       setMessages([]);
     }
-  }, [user.role, mode]);
+  }, [user.role, user.roleSelected, mode]);
 
   const persistRoleForUid = (uid, role) => {
     if (!uid || !role) return;
