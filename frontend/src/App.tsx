@@ -16,7 +16,7 @@ import { auth, provider, db } from './firebase';
 import { signInWithPopup, signOut } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import API_BASE_URL from './config/api';
-import { canAccessMode, defaultModeForRole } from './config/roleAccess';
+import { canAccessMode, defaultModeForRole, normalizeRole } from './config/roleAccess';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children, isAuthenticated }) => {
