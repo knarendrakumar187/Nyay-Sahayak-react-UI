@@ -168,9 +168,10 @@ const AnimatedRoutes = ({ isAuthenticated, handleGoogleLogin, appProps }) => {
                 </main>
 
                 {/* Modals */}
-                <AnimatePresence>
+                <AnimatePresence mode="sync">
                   {appProps.isSettingsOpen && (
                     <SettingsModal
+                      key="settings-modal"
                       user={appProps.user}
                       setUser={appProps.setUser}
                       onClose={() => appProps.setIsSettingsOpen(false)}
