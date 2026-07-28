@@ -165,8 +165,8 @@ function SettingsContent({ user, setUser, theme, setTheme, onClose, onLogout, ha
           <label className={`${label} flex items-center gap-1.5`}>
             <MapPin size={14} className="text-red-500" /> Location (State Laws)
           </label>
-          <select name="state" value={user.state} onChange={handleChange} className={field}>
-            <option value="India (General)">India (General Central Laws)</option>
+          <select name="state" value={user.state === 'India (General)' ? 'India' : user.state} onChange={handleChange} className={field}>
+            <option value="India">India</option>
             <option value="Maharashtra">Maharashtra</option>
             <option value="Delhi">Delhi</option>
             <option value="Karnataka">Karnataka</option>

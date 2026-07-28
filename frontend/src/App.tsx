@@ -233,7 +233,7 @@ function App() {
       role: "Citizen",
       language: "English",
       detailLevel: "Detailed",
-      state: "India (General)",
+      state: "India",
       voiceAssistantEnabled: true
     };
   });
@@ -242,8 +242,17 @@ function App() {
   const loading = reportLoading || isStreaming;
 
   useEffect(() => {
-    if (user.language !== 'English') {
-      setUser((prev) => ({ ...prev, language: 'English' }));
+    const needsFix =
+      user.language !== 'English' ||
+      !user.state ||
+      user.state === 'India (General)';
+
+    if (needsFix) {
+      setUser((prev) => ({
+        ...prev,
+        language: 'English',
+        state: !prev.state || prev.state === 'India (General)' ? 'India' : prev.state,
+      }));
       return;
     }
     localStorage.setItem('nyay_user', JSON.stringify(user));
