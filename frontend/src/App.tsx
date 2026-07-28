@@ -95,23 +95,24 @@ const AnimatedRoutes = ({ isAuthenticated, handleGoogleLogin, appProps }) => {
 
                 <main className="flex-1 relative flex flex-col h-full z-10 w-full">
                   {/* Mobile Header */}
-                  <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white/90 dark:bg-bg-panel border-b border-slate-200 dark:border-white/10 sticky top-0 z-20 backdrop-blur-md">
-                    <div className="flex items-center gap-3">
-                      <motion.button
-                        whileTap={{ scale: 0.9 }}
+                  <div className="md:hidden flex items-center justify-between px-3 py-2.5 bg-white/90 dark:bg-bg-panel border-b border-slate-200 dark:border-white/10 sticky top-0 z-20 backdrop-blur-md">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <button
+                        type="button"
                         onClick={() => appProps.setIsMobileMenuOpen(true)}
-                        className="p-2 text-teal-800 dark:text-teal-300 hover:bg-slate-100 dark:hover:bg-white/10 rounded-xl transition-colors"
+                        className="p-2.5 text-teal-800 dark:text-teal-300 hover:bg-slate-100 dark:hover:bg-white/10 rounded-xl transition-colors shrink-0"
+                        aria-label="Open menu"
                       >
                         <Menu size={22} />
-                      </motion.button>
-                      <span className="flex items-center gap-2">
-                        <img src="/logo.png" alt="Nyay Sahayak" className="w-6 h-6 rounded-md" />
-                        <span className="font-display font-semibold text-ink dark:text-white tracking-tight text-sm">
+                      </button>
+                      <span className="flex items-center gap-2 min-w-0">
+                        <img src="/logo.png" alt="Nyay Sahayak" className="w-6 h-6 rounded-md shrink-0" />
+                        <span className="font-display font-semibold text-ink dark:text-white tracking-tight text-sm truncate">
                           Nyay Sahayak
                         </span>
                       </span>
                     </div>
-                    <div className="w-8 h-8 rounded-xl overflow-hidden border border-slate-200 dark:border-white/15">
+                    <div className="w-8 h-8 rounded-xl overflow-hidden border border-slate-200 dark:border-white/15 shrink-0">
                       {appProps.user.photo ? (
                         <img src={appProps.user.photo} alt="User" referrerPolicy="no-referrer" className="w-full h-full object-cover" />
                       ) : (

@@ -356,7 +356,7 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
 
   return (
     <div className="flex flex-col h-full bg-transparent relative overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 z-10 flex justify-center p-3 pointer-events-none">
+      <div className="absolute top-0 left-0 right-0 z-10 hidden md:flex justify-center p-3 pointer-events-none">
         {mode === 'report' ? (
           <motion.div
             initial={{ y: -12, opacity: 0 }}
@@ -378,15 +378,26 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
         )}
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-2 scrollbar-hide pt-14 relative z-10">
+      {/* Compact mode chip on mobile */}
+      {mode === 'report' && (
+        <div className="md:hidden flex justify-center px-3 pt-2 shrink-0">
+          <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-500/40 text-red-700 dark:text-red-300 px-3 py-1 rounded-lg text-[11px] font-semibold flex items-center gap-1.5">
+            <AlertCircle size={12} />
+            FIR filing mode
+          </div>
+        </div>
+      )}
+
+      <div className="flex-1 overflow-y-auto p-3 md:p-6 space-y-2 scrollbar-hide pt-3 md:pt-14 relative z-10">
         {messages.length === 0 && (
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45 }}
-            className="h-full flex flex-col items-center justify-center text-center"
+            className="h-full flex flex-col items-center justify-start md:justify-center text-center pt-2 md:pt-0 pb-4"
           >
-            <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden mb-5 bg-white dark:bg-white/5">
+            {/* Hide large avatar on mobile — already in header */}
+            <div className="hidden md:block w-20 h-20 rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden mb-5 bg-white dark:bg-white/5">
               {user?.photo ? (
                 <img src={user.photo} alt="User" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
               ) : (
@@ -396,45 +407,45 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
               )}
             </div>
 
-            <h2 className="font-display text-3xl md:text-4xl font-normal text-ink dark:text-white mb-2 tracking-tight">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-normal text-ink dark:text-white mb-1.5 md:mb-2 tracking-tight">
               {greeting}, {user?.name?.split(' ')[0] || 'Citizen'}
             </h2>
-            <p className="text-ink-mute dark:text-slate-400 mb-8 max-w-md">
-              Ask a BNS / legal question, or pick a suggestion below to get started.
+            <p className="text-sm md:text-base text-ink-mute dark:text-slate-400 mb-5 md:mb-8 max-w-md px-2">
+              Ask a BNS / legal question, or pick a suggestion below.
             </p>
 
-            <div className="w-full max-w-2xl">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {(rolePrompts[user?.role] || rolePrompts.Citizen).map((prompt, idx) => (
+            <div className="w-full max-w-2xl px-0.5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 md:gap-3">
+                {(rolePrompts[user?.role] || rolePrompts.Citizen).slice(0, 4).map((prompt, idx) => (
                   <motion.button
                     key={idx}
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.08 * idx, duration: 0.4 }}
-                    whileHover={{ y: -3, scale: 1.01 }}
+                    transition={{ delay: 0.06 * idx, duration: 0.35 }}
                     whileTap={{ scale: 0.99 }}
                     onClick={() => {
                       setInput(prompt);
                       handleSend(prompt);
                     }}
-                    className="flex items-start gap-3 text-left p-4 rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-white/[0.03] hover:border-teal-700/50 dark:hover:border-teal-400/40 transition-colors text-sm text-ink-soft dark:text-slate-300 shadow-sm"
+                    className="flex items-start gap-2.5 text-left p-3 md:p-4 rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-white/[0.03] active:border-teal-700/50 dark:active:border-teal-400/40 transition-colors text-[13px] md:text-sm text-ink-soft dark:text-slate-300 shadow-sm"
                   >
-                    <MessageSquare size={16} className="text-teal-800 dark:text-teal-400 shrink-0 mt-0.5" />
-                    <span>{prompt}</span>
+                    <MessageSquare size={15} className="text-teal-800 dark:text-teal-400 shrink-0 mt-0.5" />
+                    <span className="leading-snug">{prompt}</span>
                   </motion.button>
                 ))}
               </div>
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-2 justify-center">
+            <div className="mt-4 md:mt-6 flex flex-wrap gap-2 justify-center px-1">
               {(roleQuickActions[user?.role] || roleQuickActions.Citizen).map((action, idx) => (
                 <button
                   key={idx}
+                  type="button"
                   onClick={() => {
                     setInput(action.query);
                     handleSend(action.query);
                   }}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-teal-700/10 hover:bg-teal-700/15 border border-teal-700/20 text-teal-900 dark:text-teal-300 font-medium transition-colors text-sm"
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-teal-700/10 active:bg-teal-700/15 border border-teal-700/20 text-teal-900 dark:text-teal-300 font-medium transition-colors text-xs md:text-sm"
                 >
                   {action.icon || <Zap size={16} />}
                   {action.label}
@@ -531,10 +542,10 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
         )}
       </AnimatePresence>
 
-      <div className="p-3 md:p-5 shrink-0 relative z-20">
+      <div className="p-2.5 md:p-5 shrink-0 relative z-20 pb-[max(0.65rem,env(safe-area-inset-bottom))]">
         <div className="max-w-3xl mx-auto">
           <div
-            className={`flex items-end gap-2 rounded-2xl border-2 bg-white dark:bg-[#0E141C] p-2 pl-3 shadow-soft transition-all duration-300 ${
+            className={`flex items-end gap-1.5 md:gap-2 rounded-2xl border-2 bg-white dark:bg-[#0E141C] p-1.5 pl-2.5 md:p-2 md:pl-3 shadow-soft transition-all duration-300 ${
               mode === 'report'
                 ? 'border-red-300 dark:border-red-500/40 focus-within:border-red-500 focus-within:shadow-[0_0_0_4px_rgba(220,38,38,0.1)]'
                 : 'border-slate-300 dark:border-white/15 focus-within:border-teal-700 dark:focus-within:border-teal-400/50 focus-within:shadow-[0_0_0_4px_rgba(10,107,99,0.12)]'
@@ -555,10 +566,10 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
                 }
               }}
               placeholder={mode === 'report' ? 'Describe your complaint…' : 'Ask about BNS, rights, FIR…'}
-              className="flex-1 bg-transparent border-none py-3 px-1 text-sm md:text-[15px] leading-relaxed text-ink dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0 resize-none max-h-32 min-h-[44px] scrollbar-hide"
+              className="flex-1 bg-transparent border-none py-2.5 md:py-3 px-1 text-sm md:text-[15px] leading-relaxed text-ink dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0 resize-none max-h-32 min-h-[40px] md:min-h-[44px] scrollbar-hide"
             />
 
-            <div className="flex items-center gap-1.5 shrink-0 pb-0.5">
+            <div className="flex items-center gap-1 md:gap-1.5 shrink-0 pb-0.5">
               {voiceAssistantEnabled && voiceAssistant.isSupported && (
                 <>
                   <button
@@ -569,7 +580,7 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
                       }
                       setIsMuted(!isMuted);
                     }}
-                    className={`h-11 w-11 rounded-xl border flex items-center justify-center transition-colors ${
+                    className={`h-10 w-10 md:h-11 md:w-11 rounded-xl border flex items-center justify-center transition-colors ${
                       isMuted
                         ? 'bg-red-50 dark:bg-red-500/15 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/30'
                         : 'bg-slate-50 dark:bg-white/5 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10 hover:text-ink dark:hover:text-white hover:border-slate-300 dark:hover:border-white/20'
@@ -594,7 +605,7 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
                 whileTap={{ scale: input.trim() ? 0.96 : 1 }}
                 onClick={() => handleSend()}
                 disabled={!input.trim() || loading}
-                className={`h-11 w-11 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                className={`h-10 w-10 md:h-11 md:w-11 rounded-xl flex items-center justify-center transition-all duration-300 ${
                   input.trim()
                     ? mode === 'report'
                       ? 'bg-red-600 text-white shadow-[0_8px_20px_rgba(220,38,38,0.28)]'
@@ -608,7 +619,7 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
             </div>
           </div>
 
-          <p className="mt-2 text-center text-[11px] text-slate-500 dark:text-slate-500">
+          <p className="mt-1.5 md:mt-2 text-center text-[10px] md:text-[11px] text-slate-500 dark:text-slate-500 hidden sm:block">
             Press Enter to send · Shift+Enter for new line
           </p>
         </div>
