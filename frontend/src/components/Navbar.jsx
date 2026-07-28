@@ -21,8 +21,26 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
 
     const navLinks = [
         { name: 'Features', href: '#features' },
-        { name: 'Why Choose Us', href: '#how-it-works' },
+        { name: 'Why Choose Us', href: '#why-us' },
     ];
+
+    const closeMenu = () => {
+        setIsMobileMenuOpen(false);
+        document.body.style.overflow = '';
+    };
+
+    const scrollToSection = (href) => {
+        closeMenu();
+        const id = href.replace('#', '');
+        // Wait until menu unmounts / overflow unlocks, then scroll
+        window.setTimeout(() => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const navOffset = 80;
+            const top = el.getBoundingClientRect().top + window.scrollY - navOffset;
+            window.scrollTo({ top, behavior: 'smooth' });
+        }, 80);
+    };
 
     return (
         <motion.nav
@@ -51,14 +69,15 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
 
                     <div className="hidden md:flex items-center gap-1">
                         {navLinks.map((link) => (
-                            <a
+                            <button
                                 key={link.name}
+                                type="button"
                                 className="relative px-4 py-2 text-sm font-semibold text-white/90 hover:text-white transition-colors group"
-                                href={link.href}
+                                onClick={() => scrollToSection(link.href)}
                             >
                                 {link.name}
                                 <span className="absolute left-4 right-4 bottom-1 h-0.5 origin-left scale-x-0 bg-teal-300 transition-transform duration-300 group-hover:scale-x-100" />
-                            </a>
+                            </button>
                         ))}
                     </div>
 
@@ -94,9 +113,11 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                         </motion.button>
 
                         <button
-                            className="md:hidden p-2 text-slate-300"
+                            type="button"
+                            className="md:hidden p-2.5 text-white"
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             aria-label="Menu"
+                            aria-expanded={isMobileMenuOpen}
                         >
                             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                         </button>
@@ -111,25 +132,26 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className="md:hidden border-t border-white/10 bg-[#07131C]/96 overflow-hidden"
+                        className="md:hidden border-t border-white/10 bg-[#07131C] overflow-hidden"
                     >
                         <div className="px-5 py-4 space-y-1 flex flex-col">
                             {navLinks.map((link, i) => (
-                                <motion.a
+                                <motion.button
                                     key={link.name}
+                                    type="button"
                                     initial={{ opacity: 0, x: -10 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: 0.05 * i }}
-                                    href={link.href}
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    className="block px-3 py-3 rounded-lg text-base font-medium text-slate-200 hover:bg-white/5"
+                                    onClick={() => scrollToSection(link.href)}
+                                    className="block w-full text-left px-3 py-3.5 rounded-lg text-base font-semibold text-white bg-white/5 active:bg-white/15"
                                 >
                                     {link.name}
-                                </motion.a>
+                                </motion.button>
                             ))}
                             <button
+                                type="button"
                                 onClick={() => {
-                                    setIsMobileMenuOpen(false);
+                                    closeMenu();
                                     navigate('/login');
                                 }}
                                 className="mt-3 w-full rounded-xl bg-white text-ink px-5 py-3 font-semibold"

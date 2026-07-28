@@ -113,7 +113,7 @@ const HomePage = () => {
                 </div>
             </header>
 
-            <section id="features" className="py-24 md:py-28 relative">
+            <section id="features" className="scroll-mt-24 py-24 md:py-28 relative">
                 <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
                     <motion.div
                         initial="hidden"
@@ -228,7 +228,7 @@ const HomePage = () => {
                 </div>
             </section>
 
-            <section id="how-it-works" className="py-24 md:py-28">
+            <section id="why-us" className="scroll-mt-24 py-24 md:py-28">
                 <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-start">
                         <motion.div

@@ -38,7 +38,7 @@ const Footer = () => {
                         <ul className="space-y-3">
                             {[
                                 { name: 'Features', href: '#features' },
-                                { name: 'Why Choose Us', href: '#how-it-works' },
+                                { name: 'Why Choose Us', href: '#why-us' },
                                 { name: 'Get Started', href: '/login', isLink: true },
                             ].map((link) => (
                                 <li key={link.name}>
@@ -47,9 +47,18 @@ const Footer = () => {
                                             {link.name}
                                         </Link>
                                     ) : (
-                                        <a href={link.href} className="text-sm text-slate-400 hover:text-teal-300 transition-colors">
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                const el = document.getElementById(link.href.replace('#', ''));
+                                                if (!el) return;
+                                                const top = el.getBoundingClientRect().top + window.scrollY - 80;
+                                                window.scrollTo({ top, behavior: 'smooth' });
+                                            }}
+                                            className="text-sm text-slate-400 hover:text-teal-300 transition-colors"
+                                        >
                                             {link.name}
-                                        </a>
+                                        </button>
                                     )}
                                 </li>
                             ))}
