@@ -276,8 +276,9 @@ function App() {
   // Keep mode valid for the selected role (FIR is Police-only)
   useEffect(() => {
     if (!user.roleSelected || !user.role) return;
-    if (!canAccessMode(user.role, mode)) {
-      setMode(defaultModeForRole(user.role));
+    const role = normalizeRole(user.role);
+    if (!canAccessMode(role, mode)) {
+      setMode(defaultModeForRole(role));
       setMessages([]);
     }
   }, [user.role, user.roleSelected, mode]);
