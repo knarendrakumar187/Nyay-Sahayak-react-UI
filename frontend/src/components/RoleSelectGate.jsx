@@ -3,10 +3,10 @@ import { Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const ROLES = [
-  { id: 'Citizen', label: 'Citizen', desc: 'Ask legal questions and use citizen services' },
-  { id: 'Advocate', label: 'Advocate', desc: 'Drafts, case help, and legal research' },
-  { id: 'Police', label: 'Police Officer', desc: 'FIR guidance and procedure support' },
-  { id: 'Student', label: 'Law Student', desc: 'Learn BNS concepts and case law' },
+  { id: 'Citizen', label: 'Citizen', desc: 'Ask legal help and use citizen government services' },
+  { id: 'Advocate', label: 'Advocate', desc: 'Legal research, IPC↔BNS mapping, and court links' },
+  { id: 'Police', label: 'Police Officer', desc: 'FIR filing tools, offence mapping, and procedure support' },
+  { id: 'Student', label: 'Law Student', desc: 'Learn BNS and study IPC to BNS section mapping' },
 ];
 
 const RoleSelectGate = ({ onSelect }) => {

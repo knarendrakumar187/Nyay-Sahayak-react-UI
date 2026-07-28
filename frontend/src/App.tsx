@@ -16,6 +16,7 @@ import { auth, provider, db } from './firebase';
 import { signInWithPopup, signOut } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import API_BASE_URL from './config/api';
+import { canAccessMode, defaultModeForRole } from './config/roleAccess';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children, isAuthenticated }) => {
@@ -272,6 +273,15 @@ function App() {
   const { generateLegalNotice } = useLegalAI();
   const loading = reportLoading || isStreaming;
 
+  // Keep user on tools allowed for their role (FIR is Police-only)
+  useEffect(() => {
+    if (!user.roleSelected || !user.role) return;
+    if (!canAccessMode(user.role, mode)) {
+      setMode(defaultModeForRole(user.role));
+      setMessages([]);
+    }
+  }, [user.role, user.roleSelected, mode]);
+
   const persistRoleForUid = (uid, role) => {
     if (!uid || !role) return;
     localStorage.setItem(`nyay_role_${uid}`, role);
@@ -370,6 +380,10 @@ function App() {
     setMessages(newMessages);
 
     if (mode === 'report') {
+      if (user.role !== 'Police') {
+        setMessages(prev => [...prev, { sender: 'ai', text: 'FIR filing is available only for Police officers. Switch to Legal Assistant for BNS questions.' }]);
+        return;
+      }
       setReportLoading(true);
       try {
         const response = await fetch(`${API_BASE_URL}/file-report-interview`, {

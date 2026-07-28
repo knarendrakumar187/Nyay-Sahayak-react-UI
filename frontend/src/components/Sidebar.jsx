@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { MessageSquare, Shield, Settings, History, ChevronRight, Globe, X, ChevronLeft, Plus, MoreVertical, Pencil, Trash2, ArrowLeftRight } from 'lucide-react';
+import { Settings, History, ChevronRight, X, ChevronLeft, Plus, MoreVertical, Pencil, Trash2 } from 'lucide-react';
 import { db, auth } from '../firebase';
 import { collection, query, where, getDocs, orderBy, doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getMenuForRole } from '../config/roleAccess';
 
 const Sidebar = ({ mode, setMode, user, onOpenSettings, onLoadChat, isOpen, onClose }) => {
     const [history, setHistory] = useState([]);
@@ -80,13 +81,8 @@ const Sidebar = ({ mode, setMode, user, onOpenSettings, onLoadChat, isOpen, onCl
         }
     };
 
-    // Simplified menu items
-    const menuItems = [
-        { id: 'chat', label: 'Legal Assistant', icon: <MessageSquare size={20} /> },
-        { id: 'report', label: 'File Report (FIR)', icon: <Shield size={20} /> },
-        { id: 'ipc-bns', label: 'IPC to BNS Mapping', icon: <ArrowLeftRight size={20} /> },
-        { id: 'digital', label: 'E-Legal Seva', icon: <Globe size={20} /> },
-    ];
+    // Role-based menu — FIR only for Police; other tools vary by role
+    const menuItems = getMenuForRole(user?.role);
 
     const closeMobileMenu = (e) => {
         e?.preventDefault?.();

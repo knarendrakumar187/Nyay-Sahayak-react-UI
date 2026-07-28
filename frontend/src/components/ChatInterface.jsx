@@ -595,7 +595,17 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
                   handleSend();
                 }
               }}
-              placeholder={mode === 'report' ? 'Describe your complaint…' : 'Ask about BNS, rights, FIR…'}
+              placeholder={
+                mode === 'report'
+                  ? 'Describe the complaint for FIR…'
+                  : user?.role === 'Advocate'
+                    ? 'Research BNS, drafts, procedure…'
+                    : user?.role === 'Student'
+                      ? 'Ask a BNS / law study question…'
+                      : user?.role === 'Police'
+                        ? 'Ask procedure, BNS sections, evidence…'
+                        : 'Ask about BNS, rights, remedies…'
+              }
               className="flex-1 bg-transparent border-none py-2.5 md:py-3 px-1 text-sm md:text-[15px] leading-relaxed text-ink dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0 resize-none max-h-32 min-h-[40px] md:min-h-[44px] scrollbar-hide"
             />
 
