@@ -8,8 +8,8 @@
 
 ## Live Demo
 
-- **Frontend**: [https://nyay-sahayak-gray.vercel.app](https://nyay-sahayak-gray.vercel.app)
-- **Backend API**: [https://nyay-sahayak-api-production.up.railway.app](https://nyay-sahayak-api-production.up.railway.app/docs)
+- **Frontend**: [https://nyay-sahayak-react-ui.vercel.app](https://nyay-sahayak-react-ui.vercel.app)
+- **Backend API**: [https://nyay-sahayak-api-i0so.onrender.com/docs](https://nyay-sahayak-api-i0so.onrender.com/docs)
 
 ## Features
 
@@ -33,7 +33,7 @@
 - FastAPI (Python)
 - Groq AI (Llama 3.3 70B)
 - ChromaDB (Vector Database)
-- Deployed on **Railway**
+- Deployed on **Render**
 
 ## Quick Start (Local Development)
 
@@ -172,11 +172,6 @@ Nyay-Sahayak-react-UI/
 - GROQ API key is loaded from environment variables
 - Firebase API keys are safe to expose (restricted by domain rules)
 - All user data is stored securely in Firebase
-
-## Developers
-
-- **[@zubershk](https://github.com/zubershk)** – Developer  
-- **[@TechJitu](https://github.com/TechJitu)** – Developer
 
 ## License
 
