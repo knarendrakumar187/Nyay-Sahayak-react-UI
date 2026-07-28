@@ -67,7 +67,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                             whileHover={{ scale: 1.08 }}
                             whileTap={{ scale: 0.94 }}
                             onClick={toggleDarkMode}
-                            className="p-2 rounded-lg border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 transition-colors"
+                            className="p-2.5 rounded-xl border border-white/35 bg-white/15 text-white shadow-sm hover:bg-white/25 hover:border-white/50 transition-colors"
                             aria-label="Toggle dark mode"
                         >
                             <AnimatePresence mode="wait" initial={false}>
@@ -79,7 +79,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                                     transition={{ duration: 0.2 }}
                                     className="block"
                                 >
-                                    {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                                    {darkMode ? <Sun className="w-5 h-5 text-amber-300" strokeWidth={2.25} /> : <Moon className="w-5 h-5 text-white" strokeWidth={2.25} />}
                                 </motion.span>
                             </AnimatePresence>
                         </motion.button>
