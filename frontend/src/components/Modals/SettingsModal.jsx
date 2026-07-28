@@ -143,12 +143,17 @@ function SettingsContent({ user, setUser, theme, setTheme, onClose, onLogout, ha
             <label className={`${label} flex items-center gap-1.5`}>
               <Shield size={14} className={isLight ? 'text-teal-700' : 'text-sky-400'} /> Role
             </label>
-            <select name="role" value={user.role} onChange={handleChange} className={field}>
-              <option value="Citizen">Citizen</option>
-              <option value="Advocate">Advocate</option>
-              <option value="Police">Police Officer</option>
-              <option value="Student">Law Student</option>
-            </select>
+            <input
+              type="text"
+              value={user.role || '—'}
+              readOnly
+              disabled
+              className={`${field} opacity-80 cursor-not-allowed`}
+              title="Role is set only when you sign in"
+            />
+            <p className={`text-[11px] ml-1 ${isLight ? 'text-ink-mute' : 'text-slate-500'}`}>
+              Set only at sign-in. Cannot be changed here.
+            </p>
           </div>
 
           <div className="space-y-1.5">

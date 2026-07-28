@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, Eye, EyeOff, ArrowLeft } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, ArrowLeft, Shield } from 'lucide-react';
 import { auth } from '../firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const AuthPage = ({ handleGoogleLogin }) => {
+const ROLES = [
+    { id: 'Citizen', label: 'Citizen' },
+    { id: 'Advocate', label: 'Advocate' },
+    { id: 'Police', label: 'Police Officer' },
+    { id: 'Student', label: 'Law Student' },
+];
+
+const AuthPage = ({ handleGoogleLogin, onSelectRole }) => {
     const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
@@ -15,7 +22,8 @@ const AuthPage = ({ handleGoogleLogin }) => {
         name: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        role: '',
     });
 
     const handleInputChange = (e) => {
@@ -26,16 +34,27 @@ const AuthPage = ({ handleGoogleLogin }) => {
         setError('');
     };
 
+    const saveRole = (role) => {
+        sessionStorage.setItem('pending_role', role);
+        onSelectRole?.(role);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+
+        // Role is required only when creating an account (Sign Up)
+        if (!isLogin && !formData.role) {
+            setError('Please select your role to create an account.');
+            return;
+        }
+
         setLoading(true);
 
         try {
-            if (isLogin) {
-                await signInWithEmailAndPassword(auth, formData.email, formData.password);
-                navigate('/app');
-            } else {
+            if (!isLogin) {
+                saveRole(formData.role);
+
                 if (formData.password !== formData.confirmPassword) {
                     setError('Passwords do not match!');
                     setLoading(false);
@@ -57,9 +76,11 @@ const AuthPage = ({ handleGoogleLogin }) => {
                 await updateProfile(userCredential.user, {
                     displayName: formData.name
                 });
-
-                navigate('/app');
+            } else {
+                await signInWithEmailAndPassword(auth, formData.email, formData.password);
             }
+
+            navigate('/app');
         } catch (err) {
             console.error('Auth error:', err);
             switch (err.code) {
@@ -89,17 +110,35 @@ const AuthPage = ({ handleGoogleLogin }) => {
         }
     };
 
+    const handleGoogle = async () => {
+        // New accounts via Google on Sign Up must pick a role first.
+        // Login / returning Google users skip role here; app gate asks once if missing.
+        if (!isLogin && !formData.role) {
+            setError('Please select your role before signing up with Google.');
+            return;
+        }
+
+        setLoading(true);
+        setError('');
+        try {
+            if (!isLogin && formData.role) {
+                saveRole(formData.role);
+            }
+            await handleGoogleLogin?.();
+            navigate('/app');
+        } catch (err) {
+            setError(err?.message || 'Google sign-in failed. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const fieldClass =
         'w-full pl-12 pr-4 py-3.5 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-700/30 focus:border-teal-700 transition-all text-ink dark:text-white placeholder-slate-400';
 
     return (
         <div className="min-h-screen bg-background-light dark:bg-bg-deep text-ink dark:text-slate-100 font-body flex items-center justify-center p-4 relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(10,107,99,0.14),_transparent_50%),radial-gradient(ellipse_at_bottom_left,_rgba(22,50,79,0.12),_transparent_45%)] pointer-events-none" />
-            <motion.div
-                className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-teal-600/10 blur-3xl pointer-events-none"
-                animate={{ y: [0, 18, 0], opacity: [0.5, 0.8, 0.5] }}
-                transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-            />
 
             <motion.button
                 initial={{ opacity: 0, x: -12 }}
@@ -113,38 +152,29 @@ const AuthPage = ({ handleGoogleLogin }) => {
             </motion.button>
 
             <motion.div
-                initial={{ opacity: 0, y: 28, filter: 'blur(8px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                initial={{ opacity: 0, y: 28 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 className="relative w-full max-w-md z-10"
             >
                 <div className="text-center mb-8">
-                    <motion.div
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 0.1, type: 'spring', stiffness: 160, damping: 16 }}
-                        className="inline-flex items-center gap-3 mb-3"
-                    >
+                    <div className="inline-flex items-center gap-3 mb-3">
                         <div className="w-11 h-11 rounded-xl overflow-hidden shadow-lift">
                             <img src="/logo.png" alt="Nyay Sahayak" className="w-full h-full object-cover" />
                         </div>
                         <h1 className="font-display text-3xl tracking-normal font-semibold text-ink dark:text-white">
                             Nyay Sahayak
                         </h1>
-                    </motion.div>
+                    </div>
                     <p className="text-ink-mute dark:text-slate-400">
                         {isLogin ? 'Welcome back. Sign in to continue.' : 'Create your account to get started.'}
                     </p>
                 </div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.18, duration: 0.5 }}
-                    className="surface-card rounded-2xl p-7 md:p-8"
-                >
+                <div className="surface-card rounded-2xl p-7 md:p-8">
                     <div className="flex gap-1 mb-7 p-1 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200/80 dark:border-white/5">
                         <button
+                            type="button"
                             onClick={() => { setIsLogin(true); setError(''); }}
                             className={`relative flex-1 py-2.5 rounded-lg font-semibold text-sm transition-colors ${isLogin ? 'text-white' : 'text-ink-mute dark:text-slate-400'}`}
                         >
@@ -158,6 +188,7 @@ const AuthPage = ({ handleGoogleLogin }) => {
                             )}
                         </button>
                         <button
+                            type="button"
                             onClick={() => { setIsLogin(false); setError(''); }}
                             className={`relative flex-1 py-2.5 rounded-lg font-semibold text-sm transition-colors ${!isLogin ? 'text-white' : 'text-ink-mute dark:text-slate-400'}`}
                         >
@@ -187,9 +218,51 @@ const AuthPage = ({ handleGoogleLogin }) => {
                         )}
                     </AnimatePresence>
 
+                    {/* Role only on Sign Up — Login uses saved role; first open uses role gate */}
+                    <AnimatePresence>
+                        {!isLogin && (
+                            <motion.div
+                                key="role-picker"
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="overflow-hidden mb-6"
+                            >
+                                <p className="text-xs font-bold uppercase tracking-wider text-ink-mute dark:text-slate-400 mb-2 flex items-center gap-1.5">
+                                    <Shield size={13} className="text-teal-700 dark:text-teal-400" />
+                                    Select your role
+                                </p>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {ROLES.map((role) => {
+                                        const active = formData.role === role.id;
+                                        return (
+                                            <button
+                                                key={role.id}
+                                                type="button"
+                                                onClick={() => {
+                                                    setFormData((prev) => ({ ...prev, role: role.id }));
+                                                    setError('');
+                                                }}
+                                                className={`rounded-xl border px-3 py-3 text-sm font-semibold transition-colors text-left ${
+                                                    active
+                                                        ? 'border-teal-600 bg-teal-700 text-white shadow-sm'
+                                                        : 'border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-ink-mute dark:text-slate-300 hover:border-teal-600/50'
+                                                }`}
+                                            >
+                                                {role.label}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
                     <button
-                        onClick={handleGoogleLogin}
-                        className="w-full flex items-center justify-center gap-3 px-6 py-3.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all font-semibold mb-6 shadow-sm"
+                        type="button"
+                        onClick={handleGoogle}
+                        disabled={loading}
+                        className="w-full flex items-center justify-center gap-3 px-6 py-3.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all font-semibold mb-6 shadow-sm disabled:opacity-60"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24">
                             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -294,14 +367,6 @@ const AuthPage = ({ handleGoogleLogin }) => {
                             )}
                         </AnimatePresence>
 
-                        {isLogin && (
-                            <div className="flex justify-end pt-1">
-                                <button type="button" className="text-sm text-teal-800 dark:text-teal-300 hover:underline">
-                                    Forgot Password?
-                                </button>
-                            </div>
-                        )}
-
                         <button
                             type="submit"
                             disabled={loading}
@@ -310,17 +375,6 @@ const AuthPage = ({ handleGoogleLogin }) => {
                             {loading ? 'Processing...' : isLogin ? 'Sign In' : 'Create Account'}
                         </button>
                     </form>
-
-                    {!isLogin && (
-                        <p className="mt-6 text-xs text-center text-slate-500">
-                            By signing up, you agree to our Terms of Service and Privacy Policy
-                        </p>
-                    )}
-                </motion.div>
-
-                <div className="mt-8 flex items-center justify-center gap-2 text-sm text-slate-500">
-                    <Lock className="w-4 h-4 text-teal-700 dark:text-teal-400" />
-                    <span>Secured with 256-bit encryption</span>
                 </div>
             </motion.div>
         </div>

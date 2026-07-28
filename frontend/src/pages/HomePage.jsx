@@ -40,28 +40,37 @@ const HomePage = () => {
 
             <header className="relative min-h-[92vh] flex items-end md:items-center overflow-hidden">
                 <motion.div className="absolute inset-0" style={{ opacity: orbOpacity }} aria-hidden="true">
-                    <div className="absolute inset-0 bg-[linear-gradient(125deg,#07131C_0%,#0F2A3A_38%,#0A6B63_100%)]" />
-                    <div className="absolute inset-0 opacity-30 bg-[radial-gradient(ellipse_at_30%_20%,rgba(94,234,212,0.35),transparent_45%),radial-gradient(ellipse_at_80%_60%,rgba(255,255,255,0.12),transparent_40%)]" />
-                    <div className="absolute inset-0 opacity-[0.07]" style={{
+                    {/* Light theme hero */}
+                    <div className="absolute inset-0 dark:hidden bg-[linear-gradient(145deg,#F7FBFA_0%,#E8F4F1_42%,#D5EBE6_100%)]" />
+                    <div className="absolute inset-0 dark:hidden opacity-80 bg-[radial-gradient(ellipse_at_20%_15%,rgba(10,107,99,0.14),transparent_48%),radial-gradient(ellipse_at_85%_55%,rgba(22,50,79,0.08),transparent_42%)]" />
+                    <div className="absolute inset-0 dark:hidden opacity-[0.35]" style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg width='72' height='72' viewBox='0 0 72 72' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%230A6B63' fill-opacity='0.09'%3E%3Ccircle cx='2' cy='2' r='1'/%3E%3C/g%3E%3C/svg%3E")`
+                    }} />
+
+                    {/* Dark theme hero */}
+                    <div className="absolute inset-0 hidden dark:block bg-[linear-gradient(125deg,#07131C_0%,#0F2A3A_38%,#0A6B63_100%)]" />
+                    <div className="absolute inset-0 hidden dark:block opacity-30 bg-[radial-gradient(ellipse_at_30%_20%,rgba(94,234,212,0.35),transparent_45%),radial-gradient(ellipse_at_80%_60%,rgba(255,255,255,0.12),transparent_40%)]" />
+                    <div className="absolute inset-0 hidden dark:block opacity-[0.07]" style={{
                         backgroundImage: `url("data:image/svg+xml,%3Csvg width='72' height='72' viewBox='0 0 72 72' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Ccircle cx='2' cy='2' r='1'/%3E%3C/g%3E%3C/svg%3E")`
                     }} />
+
                     <motion.div
-                        className="absolute -right-20 top-[18%] w-[56vw] max-w-[680px] aspect-square rounded-full border border-white/10"
+                        className="absolute -right-20 top-[18%] w-[56vw] max-w-[680px] aspect-square rounded-full border border-teal-800/10 dark:border-white/10"
                         animate={{ rotate: 360 }}
                         transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
                     />
                     <motion.div
-                        className="absolute right-[6%] top-[20%] w-[38vw] max-w-[440px] aspect-square rounded-full border border-teal-200/25"
+                        className="absolute right-[6%] top-[20%] w-[38vw] max-w-[440px] aspect-square rounded-full border border-teal-700/20 dark:border-teal-200/25"
                         animate={{ rotate: -360 }}
                         transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
                     />
                     <motion.div
                         style={{ scale: scaleY }}
-                        className="absolute right-[10%] bottom-[16%] md:bottom-[20%] opacity-30 md:opacity-40 pointer-events-none origin-center"
+                        className="absolute right-[10%] bottom-[16%] md:bottom-[20%] opacity-20 md:opacity-30 dark:opacity-30 dark:md:opacity-40 pointer-events-none origin-center"
                     >
-                        <Scale className="w-44 h-44 md:w-60 md:h-60 text-white" strokeWidth={0.9} />
+                        <Scale className="w-44 h-44 md:w-60 md:h-60 text-teal-800 dark:text-white" strokeWidth={0.9} />
                     </motion.div>
-                    <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-background-light dark:from-bg-deep via-background-light/70 dark:via-bg-deep/70 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-background-light dark:from-bg-deep via-background-light/80 dark:via-bg-deep/70 to-transparent" />
                 </motion.div>
 
                 <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 pt-28 pb-20 md:pb-28">
@@ -73,19 +82,19 @@ const HomePage = () => {
                     >
                         <motion.p
                             variants={fadeUp}
-                            className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.25rem] font-normal tracking-normal text-white mb-5 leading-[1.05]"
+                            className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.25rem] font-normal tracking-normal text-ink dark:text-white mb-5 leading-[1.05]"
                         >
                             Nyay Sahayak
                         </motion.p>
                         <motion.h1
                             variants={fadeUp}
-                            className="text-xl sm:text-2xl md:text-3xl font-medium text-teal-50/95 leading-snug mb-4"
+                            className="text-xl sm:text-2xl md:text-3xl font-medium text-teal-900 dark:text-teal-50/95 leading-snug mb-4"
                         >
                             Legal guidance for every Indian citizen.
                         </motion.h1>
                         <motion.p
                             variants={fadeUp}
-                            className="text-base md:text-lg text-slate-300/95 max-w-xl leading-relaxed mb-9"
+                            className="text-base md:text-lg text-ink-mute dark:text-slate-300/95 max-w-xl leading-relaxed mb-9"
                         >
                             Ask about the new Bharatiya Nyaya Sanhita (BNS), draft documents, and navigate government services — in the language you speak.
                         </motion.p>

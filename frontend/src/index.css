@@ -176,24 +176,44 @@
   }
 
   .btn-primary-hero {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-white text-ink px-7 py-3.5 font-semibold;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
-    transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out), background 0.25s ease;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-ink text-white px-7 py-3.5 font-semibold;
+    box-shadow: 0 12px 32px rgba(7, 19, 28, 0.16);
+    transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out), background 0.25s ease, filter 0.25s ease;
   }
 
   .btn-primary-hero:hover {
     transform: translateY(-2px);
+    filter: brightness(1.06);
+    box-shadow: 0 16px 40px rgba(7, 19, 28, 0.2);
+  }
+
+  html.dark .btn-primary-hero {
+    @apply bg-white text-ink;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    filter: none;
+  }
+
+  html.dark .btn-primary-hero:hover {
     background: #F0FDFA;
     box-shadow: 0 16px 44px rgba(0, 0, 0, 0.22);
   }
 
   .btn-ghost-hero {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/[0.06] text-white px-7 py-3.5 font-medium backdrop-blur-sm;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-teal-800/25 bg-white/70 text-ink px-7 py-3.5 font-medium backdrop-blur-sm;
     transition: transform 0.35s var(--ease-out), background 0.25s ease, border-color 0.25s ease;
   }
 
   .btn-ghost-hero:hover {
     transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(10, 107, 99, 0.45);
+  }
+
+  html.dark .btn-ghost-hero {
+    @apply border-white/25 bg-white/[0.06] text-white;
+  }
+
+  html.dark .btn-ghost-hero:hover {
     background: rgba(255, 255, 255, 0.12);
     border-color: rgba(255, 255, 255, 0.4);
   }

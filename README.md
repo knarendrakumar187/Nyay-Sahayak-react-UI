@@ -181,7 +181,7 @@ This project is licensed under the MIT License.
 
 - [Groq](https://groq.com/) - For blazing fast AI inference
 - [Firebase](https://firebase.google.com/) - For authentication and database
-- [Railway](https://railway.app/) - For backend hosting
+- [Render](https://render.com/) - For backend hosting
 - [Vercel](https://vercel.com/) - For frontend hosting
 
 ---

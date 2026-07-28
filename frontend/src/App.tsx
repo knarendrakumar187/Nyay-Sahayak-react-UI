@@ -6,6 +6,7 @@ import Sidebar from './components/Sidebar';
 import ChatInterface from './components/ChatInterface';
 import BootScreen from './components/BootScreen';
 import SettingsModal from './components/Modals/SettingsModal';
+import RoleSelectGate from './components/RoleSelectGate';
 import GovServices from './components/GovServices';
 import HomePage from './pages/HomePage';
 import AuthPage from './pages/AuthPage';
@@ -24,7 +25,7 @@ const ProtectedRoute = ({ children, isAuthenticated }) => {
 };
 
 // Animated Routes Wrapper
-const AnimatedRoutes = ({ isAuthenticated, handleGoogleLogin, appProps }) => {
+const AnimatedRoutes = ({ isAuthenticated, authChecked, handleGoogleLogin, onSelectRole, appProps }) => {
   const location = useLocation();
   
   return (
@@ -55,7 +56,7 @@ const AnimatedRoutes = ({ isAuthenticated, handleGoogleLogin, appProps }) => {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <AuthPage handleGoogleLogin={handleGoogleLogin} />
+                <AuthPage handleGoogleLogin={handleGoogleLogin} onSelectRole={onSelectRole} />
               </motion.div>
             )
           }
@@ -167,6 +168,11 @@ const AnimatedRoutes = ({ isAuthenticated, handleGoogleLogin, appProps }) => {
                   </AnimatePresence>
                 </main>
 
+                {/* Role gate — first open / after sign-in until role is chosen */}
+                {authChecked && isAuthenticated && !appProps.user.roleSelected && (
+                  <RoleSelectGate onSelect={appProps.onSelectRole} />
+                )}
+
                 {/* Modals */}
                 <AnimatePresence mode="sync">
                   {appProps.isSettingsOpen && (
@@ -196,6 +202,7 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
 
   // Mobile Menu State
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -223,14 +230,26 @@ function App() {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  // User State
+  // User State — role is chosen only at sign-in / first open (not in settings)
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem('nyay_user');
-    return saved ? JSON.parse(saved) : {
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      return {
+        ...parsed,
+        language: 'English',
+        state: 'India',
+        // Only true after an explicit role pick (never infer from old default "Citizen")
+        roleSelected: parsed.roleSelected === true,
+        role: parsed.roleSelected === true ? parsed.role : '',
+      };
+    }
+    return {
       name: "User",
       email: "",
       photo: "",
-      role: "Citizen",
+      role: "",
+      roleSelected: false,
       language: "English",
       detailLevel: "Detailed",
       state: "India",
@@ -240,6 +259,22 @@ function App() {
 
   const { generateLegalNotice } = useLegalAI();
   const loading = reportLoading || isStreaming;
+
+  const persistRoleForUid = (uid, role) => {
+    if (!uid || !role) return;
+    localStorage.setItem(`nyay_role_${uid}`, role);
+  };
+
+  const onSelectRole = (role) => {
+    sessionStorage.setItem('pending_role', role);
+    const uid = auth.currentUser?.uid;
+    if (uid) persistRoleForUid(uid, role);
+    setUser((prev) => ({
+      ...prev,
+      role,
+      roleSelected: true,
+    }));
+  };
 
   useEffect(() => {
     const needsFix =
@@ -261,15 +296,37 @@ function App() {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       if (currentUser) {
         setIsAuthenticated(true);
-        setUser(prev => ({
+
+        const pendingRole = sessionStorage.getItem('pending_role');
+        if (pendingRole) {
+          sessionStorage.removeItem('pending_role');
+          persistRoleForUid(currentUser.uid, pendingRole);
+        }
+
+        const savedRole =
+          pendingRole ||
+          localStorage.getItem(`nyay_role_${currentUser.uid}`) ||
+          '';
+
+        setUser((prev) => ({
           ...prev,
           name: currentUser.displayName || prev.name,
-          email: currentUser.email,
-          photo: currentUser.photoURL
+          email: currentUser.email || '',
+          photo: currentUser.photoURL || '',
+          role: savedRole || (prev.roleSelected ? prev.role : ''),
+          roleSelected: Boolean(savedRole) || prev.roleSelected === true,
         }));
       } else {
         setIsAuthenticated(false);
+        setUser((prev) => ({
+          ...prev,
+          role: '',
+          roleSelected: false,
+          email: '',
+          photo: '',
+        }));
       }
+      setAuthChecked(true);
     });
     return () => unsubscribe();
   }, []);
@@ -280,12 +337,20 @@ function App() {
     } catch (error) {
       console.error("Login Error:", error);
       alert("Login Failed: " + error.message);
+      throw error;
     }
   };
 
   const handleLogout = () => {
     signOut(auth);
     setIsAuthenticated(false);
+    setUser((prev) => ({
+      ...prev,
+      role: '',
+      roleSelected: false,
+      email: '',
+      photo: '',
+    }));
   };
 
   const handleSendMessage = async (text) => {
@@ -418,14 +483,17 @@ function App() {
   const appProps = {
     mode, setMode, messages, setMessages, isSettingsOpen, setIsSettingsOpen,
     isMobileMenuOpen, setIsMobileMenuOpen, user, setUser, loading,
-    handleSendMessage, handleNyayPatra, handleLogout, theme, setTheme
+    handleSendMessage, handleNyayPatra, handleLogout, theme, setTheme,
+    onSelectRole,
   };
 
   return (
     <Router>
       <AnimatedRoutes
         isAuthenticated={isAuthenticated}
+        authChecked={authChecked}
         handleGoogleLogin={handleGoogleLogin}
+        onSelectRole={onSelectRole}
         appProps={appProps}
       />
     </Router>

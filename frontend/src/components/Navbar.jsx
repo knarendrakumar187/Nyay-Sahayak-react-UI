@@ -32,7 +32,6 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
     const scrollToSection = (href) => {
         closeMenu();
         const id = href.replace('#', '');
-        // Wait until menu unmounts / overflow unlocks, then scroll
         window.setTimeout(() => {
             const el = document.getElementById(id);
             if (!el) return;
@@ -48,9 +47,13 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             className={`fixed top-0 z-50 w-full transition-all duration-500 ${
-                scrolled
-                    ? 'border-b border-white/10 bg-[#07131C]/90 backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.2)]'
-                    : 'border-b border-transparent bg-[#07131C]/55 backdrop-blur-xl'
+                darkMode
+                    ? scrolled
+                        ? 'border-b border-white/10 bg-[#07131C]/90 backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.2)]'
+                        : 'border-b border-transparent bg-[#07131C]/55 backdrop-blur-xl'
+                    : scrolled
+                        ? 'border-b border-slate-200/80 bg-white/90 backdrop-blur-2xl shadow-[0_8px_28px_rgba(7,19,28,0.08)]'
+                        : 'border-b border-transparent bg-white/55 backdrop-blur-xl'
             }`}
         >
             <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
@@ -62,7 +65,13 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                         >
                             <img src="/logo.png" alt="Nyay Sahayak" className="w-full h-full object-cover" />
                         </motion.div>
-                        <span className="font-display text-xl tracking-normal font-semibold text-white group-hover:text-teal-100 transition-colors">
+                        <span
+                            className={`font-display text-xl tracking-normal font-semibold transition-colors ${
+                                darkMode
+                                    ? 'text-white group-hover:text-teal-100'
+                                    : 'text-ink group-hover:text-teal-800'
+                            }`}
+                        >
                             Nyay Sahayak
                         </span>
                     </Link>
@@ -72,11 +81,19 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                             <button
                                 key={link.name}
                                 type="button"
-                                className="relative px-4 py-2 text-sm font-semibold text-white/90 hover:text-white transition-colors group"
+                                className={`relative px-4 py-2 text-sm font-semibold transition-colors group ${
+                                    darkMode
+                                        ? 'text-white/90 hover:text-white'
+                                        : 'text-ink-mute hover:text-ink'
+                                }`}
                                 onClick={() => scrollToSection(link.href)}
                             >
                                 {link.name}
-                                <span className="absolute left-4 right-4 bottom-1 h-0.5 origin-left scale-x-0 bg-teal-300 transition-transform duration-300 group-hover:scale-x-100" />
+                                <span
+                                    className={`absolute left-4 right-4 bottom-1 h-0.5 origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100 ${
+                                        darkMode ? 'bg-teal-300' : 'bg-teal-700'
+                                    }`}
+                                />
                             </button>
                         ))}
                     </div>
@@ -86,7 +103,11 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                             whileHover={{ scale: 1.08 }}
                             whileTap={{ scale: 0.94 }}
                             onClick={toggleDarkMode}
-                            className="p-2.5 rounded-xl border border-white/35 bg-white/15 text-white shadow-sm hover:bg-white/25 hover:border-white/50 transition-colors"
+                            className={`p-2.5 rounded-xl border shadow-sm transition-colors ${
+                                darkMode
+                                    ? 'border-white/35 bg-white/15 text-white hover:bg-white/25 hover:border-white/50'
+                                    : 'border-slate-300 bg-white text-ink hover:bg-slate-50 hover:border-teal-700/40'
+                            }`}
                             aria-label="Toggle dark mode"
                         >
                             <AnimatePresence mode="wait" initial={false}>
@@ -98,7 +119,11 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                                     transition={{ duration: 0.2 }}
                                     className="block"
                                 >
-                                    {darkMode ? <Sun className="w-5 h-5 text-amber-300" strokeWidth={2.25} /> : <Moon className="w-5 h-5 text-white" strokeWidth={2.25} />}
+                                    {darkMode ? (
+                                        <Sun className="w-5 h-5 text-amber-300" strokeWidth={2.25} />
+                                    ) : (
+                                        <Moon className="w-5 h-5 text-teal-800" strokeWidth={2.25} />
+                                    )}
                                 </motion.span>
                             </AnimatePresence>
                         </motion.button>
@@ -107,14 +132,18 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                             whileHover={{ scale: 1.03, y: -1 }}
                             whileTap={{ scale: 0.97 }}
                             onClick={() => navigate('/login')}
-                            className="hidden sm:inline-flex items-center rounded-xl bg-white text-ink px-5 py-2.5 text-sm font-semibold hover:bg-teal-50 transition-colors"
+                            className={`hidden sm:inline-flex items-center rounded-xl px-5 py-2.5 text-sm font-semibold transition-colors ${
+                                darkMode
+                                    ? 'bg-white text-ink hover:bg-teal-50'
+                                    : 'bg-ink text-white hover:bg-teal-900'
+                            }`}
                         >
                             Start for Free
                         </motion.button>
 
                         <button
                             type="button"
-                            className="md:hidden p-2.5 text-white"
+                            className={`md:hidden p-2.5 ${darkMode ? 'text-white' : 'text-ink'}`}
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             aria-label="Menu"
                             aria-expanded={isMobileMenuOpen}
@@ -132,7 +161,11 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className="md:hidden border-t border-white/10 bg-[#07131C] overflow-hidden"
+                        className={`md:hidden border-t overflow-hidden ${
+                            darkMode
+                                ? 'border-white/10 bg-[#07131C]'
+                                : 'border-slate-200 bg-white'
+                        }`}
                     >
                         <div className="px-5 py-4 space-y-1 flex flex-col">
                             {navLinks.map((link, i) => (
@@ -143,7 +176,11 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: 0.05 * i }}
                                     onClick={() => scrollToSection(link.href)}
-                                    className="block w-full text-left px-3 py-3.5 rounded-lg text-base font-semibold text-white bg-white/5 active:bg-white/15"
+                                    className={`block w-full text-left px-3 py-3.5 rounded-lg text-base font-semibold ${
+                                        darkMode
+                                            ? 'text-white bg-white/5 active:bg-white/15'
+                                            : 'text-ink bg-slate-50 active:bg-slate-100'
+                                    }`}
                                 >
                                     {link.name}
                                 </motion.button>
@@ -154,7 +191,9 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                                     closeMenu();
                                     navigate('/login');
                                 }}
-                                className="mt-3 w-full rounded-xl bg-white text-ink px-5 py-3 font-semibold"
+                                className={`mt-3 w-full rounded-xl px-5 py-3 font-semibold ${
+                                    darkMode ? 'bg-white text-ink' : 'bg-ink text-white'
+                                }`}
                             >
                                 Start for Free
                             </button>
