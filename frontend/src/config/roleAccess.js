@@ -8,7 +8,7 @@ import { MessageSquare, Shield, Globe, ArrowLeftRight, FileText, BookOpen, Gavel
 export const ROLE_MENUS = {
   Citizen: [
     { id: 'chat', label: 'Ask Legal Help', icon: 'MessageSquare' },
-    { id: 'ipc-bns', label: 'IPC to BNS Mapping', icon: 'ArrowLeftRight' },
+    { id: 'ipc-bns', label: 'IPC ↔ BNS Mapping', icon: 'ArrowLeftRight' },
     { id: 'digital', label: 'Citizen Seva', icon: 'Globe' },
   ],
   Advocate: [

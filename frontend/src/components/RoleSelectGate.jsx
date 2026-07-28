@@ -3,7 +3,7 @@ import { Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const ROLES = [
-  { id: 'Citizen', label: 'Citizen', desc: 'Ask legal questions and use citizen services' },
+  { id: 'Citizen', label: 'Citizen', desc: 'Legal help, IPC↔BNS mapping, and citizen services' },
   { id: 'Advocate', label: 'Advocate', desc: 'Drafts, case help, and legal research' },
   { id: 'Police', label: 'Police Officer', desc: 'FIR guidance and procedure support' },
   { id: 'Student', label: 'Law Student', desc: 'Learn BNS concepts and case law' },

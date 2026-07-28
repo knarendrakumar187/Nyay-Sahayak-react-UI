@@ -105,6 +105,7 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
     Citizen: [
       { label: 'Check Case Status', query: 'How can I check my case status online?', icon: <Search size={16} /> },
       { label: 'BNS Explainer', query: 'Explain the main changes from IPC to BNS', icon: <BookOpen size={16} /> },
+      { label: 'Map IPC 420', query: 'What is the BNS section for old IPC 420?', icon: <Scale size={16} /> },
     ],
     Advocate: [
       { label: 'Draft Document', query: 'Help me draft a legal document', icon: <FileText size={16} /> },
