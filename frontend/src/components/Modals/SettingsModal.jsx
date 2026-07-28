@@ -165,12 +165,8 @@ function SettingsContent({ user, setUser, theme, setTheme, onClose, onLogout, ha
           <label className={`${label} flex items-center gap-1.5`}>
             <MapPin size={14} className="text-red-500" /> Location (State Laws)
           </label>
-          <select name="state" value={user.state === 'India (General)' ? 'India' : user.state} onChange={handleChange} className={field}>
+          <select name="state" value="India" disabled className={`${field} opacity-80 cursor-not-allowed`}>
             <option value="India">India</option>
-            <option value="Maharashtra">Maharashtra</option>
-            <option value="Delhi">Delhi</option>
-            <option value="Karnataka">Karnataka</option>
-            <option value="Uttar Pradesh">Uttar Pradesh</option>
           </select>
         </div>
 

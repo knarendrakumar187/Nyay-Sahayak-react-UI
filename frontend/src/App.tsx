@@ -244,14 +244,13 @@ function App() {
   useEffect(() => {
     const needsFix =
       user.language !== 'English' ||
-      !user.state ||
-      user.state === 'India (General)';
+      user.state !== 'India';
 
     if (needsFix) {
       setUser((prev) => ({
         ...prev,
         language: 'English',
-        state: !prev.state || prev.state === 'India (General)' ? 'India' : prev.state,
+        state: 'India',
       }));
       return;
     }
