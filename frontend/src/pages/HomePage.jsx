@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mic, MessageSquare, Building2, CheckCircle, ArrowRight, Zap, Shield, Scale } from 'lucide-react';
+import { Mic, MessageSquare, Building2, CheckCircle, ArrowRight, Zap, Shield, Scale, ArrowLeftRight } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import AnimatedJusticeScales from '../components/AnimatedJusticeScales';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 const ease = [0.22, 1, 0.36, 1];
@@ -66,9 +67,12 @@ const HomePage = () => {
                     />
                     <motion.div
                         style={{ scale: scaleY }}
-                        className="absolute right-[10%] bottom-[16%] md:bottom-[20%] opacity-20 md:opacity-30 dark:opacity-30 dark:md:opacity-40 pointer-events-none origin-center"
+                        className="absolute right-[6%] bottom-[12%] md:bottom-[16%] opacity-45 md:opacity-55 dark:opacity-40 dark:md:opacity-50 pointer-events-none origin-center"
                     >
-                        <Scale className="w-44 h-44 md:w-60 md:h-60 text-teal-800 dark:text-white" strokeWidth={0.9} />
+                        <AnimatedJusticeScales
+                            className="w-44 h-44 md:w-64 md:h-64"
+                            color={darkMode ? '#E7F7F3' : '#0A6B63'}
+                        />
                     </motion.div>
                     <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-background-light dark:from-bg-deep via-background-light/80 dark:via-bg-deep/70 to-transparent" />
                 </motion.div>
@@ -140,23 +144,30 @@ const HomePage = () => {
                         </p>
                     </motion.div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-7">
                         {[
                             {
                                 icon: <MessageSquare className="w-6 h-6" />,
                                 title: 'Smart Legal Chat',
-                                desc: 'Ask about rights, procedures, and remedies. Get structured answers in Hindi, English, or Hinglish.'
+                                desc: 'Ask about rights, procedures, and remedies. Get structured answers grounded in BNS.',
+                            },
+                            {
+                                icon: <ArrowLeftRight className="w-6 h-6" />,
+                                title: 'IPC to BNS Mapping',
+                                desc: 'Instantly map old IPC sections to the correct Bharatiya Nyaya Sanhita equivalents.',
+                                href: '/login',
+                                highlight: true,
                             },
                             {
                                 icon: <Building2 className="w-6 h-6" />,
                                 title: 'Digital Seva',
-                                desc: 'Guided paths for e-Courts, FIR filing, RTI, and government portals — step by step.'
+                                desc: 'Guided paths for e-Courts, FIR filing, RTI, and government portals — step by step.',
                             },
                             {
                                 icon: <Mic className="w-6 h-6" />,
                                 title: 'Voice Assistant',
-                                desc: 'Speak your question naturally. Hear responses back in the same language.'
-                            }
+                                desc: 'Speak your question naturally. Hear responses back in the same language.',
+                            },
                         ].map((item, i) => (
                             <motion.div
                                 key={item.title}
@@ -164,7 +175,26 @@ const HomePage = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, amount: 0.3 }}
                                 transition={{ delay: i * 0.1, duration: 0.6, ease }}
-                                className="surface-card p-7 md:p-8 group"
+                                role={item.href ? 'button' : undefined}
+                                tabIndex={item.href ? 0 : undefined}
+                                onClick={item.href ? () => navigate(item.href) : undefined}
+                                onKeyDown={
+                                    item.href
+                                        ? (e) => {
+                                            if (e.key === 'Enter' || e.key === ' ') {
+                                                e.preventDefault();
+                                                navigate(item.href);
+                                            }
+                                        }
+                                        : undefined
+                                }
+                                className={`surface-card p-7 md:p-8 group text-left ${
+                                    item.href ? 'cursor-pointer' : ''
+                                } ${
+                                    item.highlight
+                                        ? 'border-teal-700/35 dark:border-teal-400/30 ring-1 ring-teal-700/10 dark:ring-teal-400/10'
+                                        : ''
+                                }`}
                             >
                                 <motion.div
                                     whileHover={{ rotate: -6, scale: 1.06 }}
@@ -178,7 +208,14 @@ const HomePage = () => {
                                 <p className="text-ink-mute dark:text-slate-400 leading-relaxed">
                                     {item.desc}
                                 </p>
-                                <div className="reveal-line mt-6" />
+                                {item.href ? (
+                                    <p className="mt-4 text-sm font-semibold text-teal-800 dark:text-teal-300 inline-flex items-center gap-1.5">
+                                        Open tool
+                                        <ArrowRight className="w-3.5 h-3.5" />
+                                    </p>
+                                ) : (
+                                    <div className="reveal-line mt-6" />
+                                )}
                             </motion.div>
                         ))}
                     </div>

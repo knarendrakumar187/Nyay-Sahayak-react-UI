@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import AnimatedJusticeScales from './AnimatedJusticeScales';
 
 const BootScreen = ({ onComplete }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onComplete();
-    }, 1800);
+    }, 2000);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -30,32 +31,24 @@ const BootScreen = ({ onComplete }) => {
 
       <div className="relative z-10 flex flex-col items-center">
         <motion.div
-          className="relative mb-7"
-          initial={{ opacity: 0, scale: 0.72, y: 18 }}
+          className="relative mb-6"
+          initial={{ opacity: 0, scale: 0.78, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ type: 'spring', stiffness: 140, damping: 16 }}
         >
           <motion.div
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full blur-2xl bg-teal-400/25"
-            animate={{ opacity: [0.2, 0.5, 0.2], scale: [0.85, 1.12, 0.85] }}
-            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-          />
-
-          <motion.img
-            src="/lady-justice.png"
-            alt="Nyay Sahayak"
-            draggable={false}
-            className="relative w-36 md:w-44 h-auto select-none pointer-events-none drop-shadow-[0_12px_40px_rgba(0,0,0,0.45)]"
-            animate={{ y: [0, -10, 0], rotate: [-2, 2, -2] }}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 rounded-full blur-2xl bg-teal-400/20"
+            animate={{ opacity: [0.18, 0.42, 0.18], scale: [0.88, 1.1, 0.88] }}
             transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
           />
+          <AnimatedJusticeScales className="relative w-40 h-40 md:w-48 md:h-48" color="#E7F7F3" />
         </motion.div>
 
         <motion.h1
           className="font-display text-3xl md:text-4xl text-white tracking-normal font-semibold mb-8"
           initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          transition={{ delay: 0.15, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.12, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
           Nyay Sahayak
         </motion.h1>
@@ -64,7 +57,7 @@ const BootScreen = ({ onComplete }) => {
           className="h-0.5 w-28 overflow-hidden rounded-full bg-white/10"
           initial={{ opacity: 0, scaleX: 0.4 }}
           animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ delay: 0.25, duration: 0.4 }}
+          transition={{ delay: 0.2, duration: 0.4 }}
         >
           <motion.div
             className="h-full bg-gradient-to-r from-teal-600 via-teal-300 to-teal-500"
