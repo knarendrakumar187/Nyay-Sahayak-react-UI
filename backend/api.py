@@ -38,15 +38,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- DATABASE SETUP ---
+# --- DATABASE SETUP (BNS RAG) ---
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CHROMA_PATH = os.path.join(BASE_DIR, "nyay_memory")
+BNS_COLLECTION = "bns_law"
+
 try:
-    chroma_client = chromadb.PersistentClient(path="./nyay_memory") 
-    # Use ChromaDB's default embedding function (no heavy dependencies)
+    chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
+    # Legacy collection (kept for compatibility)
     vector_db = chroma_client.get_or_create_collection(name="legal_cases")
+    try:
+        bns_db = chroma_client.get_collection(name=BNS_COLLECTION)
+        print(f"BNS RAG ready! Chunks indexed: {bns_db.count()}")
+    except Exception:
+        bns_db = chroma_client.get_or_create_collection(name=BNS_COLLECTION)
+        print("BNS collection empty — run: python ingest.py")
     print("Database Connected!")
 except Exception as e:
     print(f"Database Error: {e}")
     vector_db = None
+    bns_db = None
 
 # --- AI MODEL SETUP (GROQ ONLY) ---
 try:
@@ -69,6 +80,29 @@ except Exception as e:
     draft_llm = None
     vision_llm = None
     groq_client = None
+
+
+def retrieve_bns_context(query: str, n_results: int = 5) -> str:
+    """Retrieve relevant Bharatiya Nyaya Sanhita passages for RAG."""
+    if not bns_db:
+        return ""
+    try:
+        if bns_db.count() == 0:
+            return ""
+        results = bns_db.query(query_texts=[query], n_results=min(n_results, bns_db.count()))
+        docs = (results.get("documents") or [[]])[0]
+        metas = (results.get("metadatas") or [[]])[0]
+        if not docs:
+            return ""
+        blocks = []
+        for i, doc in enumerate(docs):
+            meta = metas[i] if i < len(metas) and metas[i] else {}
+            page = meta.get("page", "?")
+            blocks.append(f"[BNS excerpt — page {page}]\n{doc}")
+        return "\n\n---\n\n".join(blocks)
+    except Exception as e:
+        print(f"BNS retrieval error: {e}")
+        return ""
 
 # --- DATA MODELS ---
 class UserQuery(BaseModel):
@@ -103,7 +137,16 @@ class ReportChatRequest(BaseModel):
 # ==========================================
 
 async def generate_live_response(message, history):
-    system_prompt = """You are Nyay Sahayak, an AI Legal Assistant for Indians. Provide accurate, helpful legal advice.
+    bns_context = retrieve_bns_context(message, n_results=5)
+
+    system_prompt = """You are Nyay Sahayak (न्याय सहायक), an AI legal assistant focused on India's NEW criminal laws — especially the Bharatiya Nyaya Sanhita (BNS), which replaced the Indian Penal Code (IPC).
+
+YOUR JOB (RAG):
+1. Ground answers in the RETRIEVED BNS EXCERPTS provided below whenever they are relevant.
+2. Cite BNS section numbers / page context from the excerpts when possible.
+3. If the user mentions an old IPC section, explain the corresponding BNS position using the excerpts + your knowledge of the IPC→BNS transition — but prefer the retrieved text.
+4. If retrieved excerpts are weak or missing for the question, say so clearly and give general guidance — do NOT invent fake section text.
+5. Always add a short disclaimer: this is information, not a substitute for a licensed advocate.
 
 CRITICAL LANGUAGE RULES - FOLLOW STRICTLY:
 1. FIRST, detect the language of the user's CURRENT message (ignore history).
@@ -111,22 +154,24 @@ CRITICAL LANGUAGE RULES - FOLLOW STRICTLY:
 3. If the message contains Hindi script (देवनागरी) → RESPOND 100% IN HINDI with Hindi numerals (१, २, ३)
 4. If the message is Roman Hindi/Hinglish (like "kaise", "mujhe", "kya") → RESPOND IN HINGLISH
 
-LANGUAGE DETECTION TIPS:
-- "How do I file a complaint?" → ENGLISH (words are English)
-- "I want to file FIR" → ENGLISH  
-- "FIR kaise file karein?" → HINGLISH (Roman Hindi)
-- "मुझे FIR दर्ज करनी है" → HINDI (Devanagari script)
-- "What are my rights?" → ENGLISH
-- "Mera kya right hai?" → HINGLISH
-
 RESPONSE FORMAT:
-- Use **bold** for headings and important terms
+- Use **bold** for headings, BNS section names, and important terms
 - Use numbered lists for steps (1, 2, 3 for English; १, २, ३ for Hindi)
-- Keep responses clear and well-structured
+- Quote or paraphrase the relevant BNS text briefly, then explain in plain language
 - End with a helpful follow-up question in the SAME language
 
 NEVER mix languages. If user asks in English, respond FULLY in English."""
-    full_prompt = f"{system_prompt}\n\nCONVERSATION HISTORY:\n{history}\n\nUSER: {message}\nAI:"
+
+    context_block = (
+        f"RETRIEVED BNS EXCERPTS (from official BNS PDF):\n{bns_context}"
+        if bns_context
+        else "RETRIEVED BNS EXCERPTS: (none found — answer carefully and note limited retrieval.)"
+    )
+
+    full_prompt = (
+        f"{system_prompt}\n\n{context_block}\n\n"
+        f"CONVERSATION HISTORY:\n{history}\n\nUSER: {message}\nAI:"
+    )
     
     try:
         if not draft_llm:

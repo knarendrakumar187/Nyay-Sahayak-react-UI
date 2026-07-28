@@ -87,7 +87,7 @@ const HomePage = () => {
                             variants={fadeUp}
                             className="text-base md:text-lg text-slate-300/95 max-w-xl leading-relaxed mb-9"
                         >
-                            Ask questions, draft documents, and navigate government services — in the language you speak.
+                            Ask about the new Bharatiya Nyaya Sanhita (BNS), draft documents, and navigate government services — in the language you speak.
                         </motion.p>
                         <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3">
                             <motion.button
@@ -259,7 +259,7 @@ const HomePage = () => {
                             {[
                                 { icon: <Shield className="w-5 h-5" />, title: 'Affordable clarity', desc: 'Get direction on common issues without burning savings on a first consult.' },
                                 { icon: <Zap className="w-5 h-5" />, title: 'Immediate response', desc: 'Draft templates and procedural guidance in seconds, not weeks.' },
-                                { icon: <Scale className="w-5 h-5" />, title: 'Plain-language law', desc: 'IPC, rights, and remedies explained in the language you actually use.' }
+                                { icon: <Scale className="w-5 h-5" />, title: 'Plain-language law', desc: 'BNS sections, rights, and remedies explained in the language you actually use.' }
                             ].map((row, i) => (
                                 <motion.div
                                     key={row.title}

@@ -16,6 +16,7 @@ backend/nyay_memory/
 vector_db/
 *.sqlite3
 *.pdf
+!backend/data/BNS.pdf
 logs/
 *.log
 .vscode/

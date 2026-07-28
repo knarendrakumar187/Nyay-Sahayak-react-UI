@@ -67,27 +67,27 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
 
   const rolePrompts = {
     Citizen: [
-      "How do I file a consumer complaint online?",
-      "What are my tenant rights in India?",
-      "How to get free legal aid?",
-      "Steps to file RTI application"
+      "What is the punishment for hit-and-run under BNS?",
+      "How do I file an FIR under the new criminal laws?",
+      "What changed from IPC to Bharatiya Nyaya Sanhita?",
+      "How to get free legal aid?"
     ],
     Advocate: [
       "Draft legal notice for cheque bounce",
-      "Recent Supreme Court judgments on Section 138",
+      "Map old IPC 420 to the new BNS section",
       "Civil procedure timeline for suit filing",
       "Bail application format and procedure"
     ],
     Police: [
-      "FIR filing procedure step-by-step",
-      "When is arrest warrant required?",
+      "FIR filing procedure under BNSS step-by-step",
+      "When is arrest warrant required under new laws?",
       "Evidence documentation guidelines",
-      "Cognizable vs non-cognizable offenses"
+      "Cognizable vs non-cognizable offenses in BNS"
     ],
     Student: [
-      "Explain IPC Section 420 in detail",
+      "Explain cheating / fraud under Bharatiya Nyaya Sanhita",
       "Difference between bail and anticipatory bail",
-      "Constitutional law fundamental rights overview",
+      "Key differences between IPC and BNS",
       "Landmark cases on Article 21"
     ]
   };
@@ -400,7 +400,7 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
               {greeting}, {user?.name?.split(' ')[0] || 'Citizen'}
             </h2>
             <p className="text-ink-mute dark:text-slate-400 mb-8 max-w-md">
-              Ask a legal question, or pick a suggestion below to get started.
+              Ask a BNS / legal question, or pick a suggestion below to get started.
             </p>
 
             <div className="w-full max-w-2xl">
@@ -554,7 +554,7 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
                   handleSend();
                 }
               }}
-              placeholder={mode === 'report' ? 'Describe your complaint…' : 'Ask your legal question…'}
+              placeholder={mode === 'report' ? 'Describe your complaint…' : 'Ask about BNS, rights, FIR…'}
               className="flex-1 bg-transparent border-none py-3 px-1 text-sm md:text-[15px] leading-relaxed text-ink dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0 resize-none max-h-32 min-h-[44px] scrollbar-hide"
             />
 
