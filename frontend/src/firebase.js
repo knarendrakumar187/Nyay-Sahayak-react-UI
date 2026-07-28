@@ -1,21 +1,19 @@
 // src/firebase.js
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth"; // 👈 Ye line check kar, honi chahiye
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-
 const firebaseConfig = {
-  apiKey: "AIzaSyAkzSoh1gcDbveNawu8v03YiPmtfV1O9Bg",
-  authDomain: "nyaysahayak-auth.firebaseapp.com",
-  projectId: "nyaysahayak-auth",
-  storageBucket: "nyaysahayak-auth.appspot.com",
-  messagingSenderId: "838850495506",
-  appId: "1:838850495506:web:378ff24c04cb89c86dc4cb"
+  apiKey: "AIzaSyDgsaAkfiOsCkDI1cj4mpTyI1jkNxGsX4o",
+  authDomain: "nyay-sahayak12.firebaseapp.com",
+  projectId: "nyay-sahayak12",
+  storageBucket: "nyay-sahayak12.firebasestorage.app",
+  messagingSenderId: "742045216501",
+  appId: "1:742045216501:web:11c54ec33691771149dfbc",
+  measurementId: "G-7HLZEPS1TD",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
 
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
