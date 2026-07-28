@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Settings, History, ChevronRight, X, ChevronLeft, Plus, MoreVertical, Pencil, Trash2 } from 'lucide-react';
+import { MessageSquare, Shield, Settings, History, ChevronRight, Globe, X, ChevronLeft, Plus, MoreVertical, Pencil, Trash2, ArrowLeftRight } from 'lucide-react';
 import { db, auth } from '../firebase';
 import { collection, query, where, getDocs, orderBy, doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getMenuForRole } from '../config/roleAccess';
 
 const Sidebar = ({ mode, setMode, user, onOpenSettings, onLoadChat, isOpen, onClose }) => {
     const [history, setHistory] = useState([]);
@@ -81,8 +80,15 @@ const Sidebar = ({ mode, setMode, user, onOpenSettings, onLoadChat, isOpen, onCl
         }
     };
 
-    // Role-based menu — FIR only for Police; other tools vary by role
-    const menuItems = getMenuForRole(user?.role);
+    // Role-based menu — FIR only for Police; tools differ by role
+    const role = user?.role || 'Citizen';
+    const allMenuItems = [
+        { id: 'chat', label: 'Legal Assistant', icon: <MessageSquare size={20} />, roles: ['Citizen', 'Advocate', 'Police', 'Student'] },
+        { id: 'report', label: 'File Report (FIR)', icon: <Shield size={20} />, roles: ['Police'] },
+        { id: 'ipc-bns', label: 'IPC to BNS Mapping', icon: <ArrowLeftRight size={20} />, roles: ['Advocate', 'Police', 'Student'] },
+        { id: 'digital', label: 'E-Legal Seva', icon: <Globe size={20} />, roles: ['Citizen', 'Advocate', 'Police'] },
+    ];
+    const menuItems = allMenuItems.filter((item) => item.roles.includes(role));
 
     const closeMobileMenu = (e) => {
         e?.preventDefault?.();

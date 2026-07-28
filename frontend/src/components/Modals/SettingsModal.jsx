@@ -1,12 +1,20 @@
 import React, { useEffect } from 'react';
 import { X, Save, LogOut, User, MapPin, Globe, Shield, Mic, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { auth } from '../../firebase';
 
 const SettingsModal = ({ user, setUser, onClose, onLogout, theme, setTheme }) => {
   const isLight = theme === 'light';
 
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === 'role') {
+      const uid = auth.currentUser?.uid;
+      if (uid) localStorage.setItem(`nyay_role_${uid}`, value);
+      setUser({ ...user, role: value, roleSelected: true });
+      return;
+    }
+    setUser({ ...user, [name]: value });
   };
 
   useEffect(() => {
@@ -143,16 +151,14 @@ function SettingsContent({ user, setUser, theme, setTheme, onClose, onLogout, ha
             <label className={`${label} flex items-center gap-1.5`}>
               <Shield size={14} className={isLight ? 'text-teal-700' : 'text-sky-400'} /> Role
             </label>
-            <input
-              type="text"
-              value={user.role || '—'}
-              readOnly
-              disabled
-              className={`${field} opacity-80 cursor-not-allowed`}
-              title="Role is set only when you sign in"
-            />
+            <select name="role" value={user.role || 'Citizen'} onChange={handleChange} className={field}>
+              <option value="Citizen">Citizen</option>
+              <option value="Advocate">Advocate</option>
+              <option value="Police">Police Officer</option>
+              <option value="Student">Law Student</option>
+            </select>
             <p className={`text-[11px] ml-1 ${isLight ? 'text-ink-mute' : 'text-slate-500'}`}>
-              Set only at sign-in. Cannot be changed here.
+              Changing role updates the tools shown in the menu.
             </p>
           </div>
 
