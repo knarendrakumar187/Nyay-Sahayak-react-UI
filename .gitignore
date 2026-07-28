@@ -22,4 +22,5 @@ logs/
 .vscode/
 .idea/
 .DS_Store
-Thumbs.dbncrb_raw.html
+Thumbs.db
+ncrb_raw.html
