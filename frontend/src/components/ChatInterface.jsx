@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Mic, Volume2, VolumeX, User, Trash2, Copy, Check, MessageSquare, Zap, FileText, Search, Shield, BookOpen, AlertCircle } from 'lucide-react';
+import { Send, Mic, Volume2, VolumeX, Trash2, Copy, Check, MessageSquare, Zap, FileText, Search, Shield, BookOpen, AlertCircle, ClipboardList, Scale, Gavel } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useVoiceAssistant } from '../hooks/useVoiceAssistant';
 import VoiceAssistantButton from './VoiceAssistantButton';
@@ -65,51 +65,74 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
     return () => clearInterval(interval);
   }, []);
 
-  const rolePrompts = {
+  const isFirMode = mode === 'report';
+
+  const legalPrompts = {
     Citizen: [
-      "What is the punishment for hit-and-run under BNS?",
-      "How do I file an FIR under the new criminal laws?",
-      "What changed from IPC to Bharatiya Nyaya Sanhita?",
-      "How to get free legal aid?"
+      { text: 'What is the punishment for hit-and-run under BNS?', icon: <Scale size={15} /> },
+      { text: 'What changed from IPC to Bharatiya Nyaya Sanhita?', icon: <BookOpen size={15} /> },
+      { text: 'How to get free legal aid in India?', icon: <Search size={15} /> },
+      { text: 'Explain bail vs anticipatory bail simply', icon: <Gavel size={15} /> },
     ],
     Advocate: [
-      "Draft legal notice for cheque bounce",
-      "Map old IPC 420 to the new BNS section",
-      "Civil procedure timeline for suit filing",
-      "Bail application format and procedure"
+      { text: 'Draft legal notice for cheque bounce', icon: <FileText size={15} /> },
+      { text: 'Map old IPC 420 to the new BNS section', icon: <BookOpen size={15} /> },
+      { text: 'Civil procedure timeline for suit filing', icon: <Search size={15} /> },
+      { text: 'Bail application format and procedure', icon: <Gavel size={15} /> },
     ],
     Police: [
-      "FIR filing procedure under BNSS step-by-step",
-      "When is arrest warrant required under new laws?",
-      "Evidence documentation guidelines",
-      "Cognizable vs non-cognizable offenses in BNS"
+      { text: 'Cognizable vs non-cognizable offenses in BNS', icon: <Shield size={15} /> },
+      { text: 'When is arrest warrant required under new laws?', icon: <Gavel size={15} /> },
+      { text: 'Evidence documentation guidelines', icon: <FileText size={15} /> },
+      { text: 'Key BNS sections for property offences', icon: <BookOpen size={15} /> },
     ],
     Student: [
-      "Explain cheating / fraud under Bharatiya Nyaya Sanhita",
-      "Difference between bail and anticipatory bail",
-      "Key differences between IPC and BNS",
-      "Landmark cases on Article 21"
-    ]
+      { text: 'Explain cheating / fraud under Bharatiya Nyaya Sanhita', icon: <BookOpen size={15} /> },
+      { text: 'Difference between bail and anticipatory bail', icon: <Gavel size={15} /> },
+      { text: 'Key differences between IPC and BNS', icon: <Scale size={15} /> },
+      { text: 'Landmark cases on Article 21', icon: <Search size={15} /> },
+    ],
   };
 
-  const roleQuickActions = {
+  const firPrompts = [
+    { text: 'Help me draft an FIR for mobile phone theft', icon: <ClipboardList size={15} /> },
+    { text: 'What details must I include in an FIR?', icon: <FileText size={15} /> },
+    { text: 'FIR steps under BNSS — guide me one by one', icon: <Shield size={15} /> },
+    { text: 'Can police refuse to register my FIR?', icon: <AlertCircle size={15} /> },
+  ];
+
+  const legalQuickActions = {
     Citizen: [
-      { label: "Check Case Status", query: "How can I check my case status online?", icon: <Search size={16} /> },
-      { label: "File Complaint", query: "What is the process to file an online complaint?", icon: <FileText size={16} /> }
+      { label: 'Check Case Status', query: 'How can I check my case status online?', icon: <Search size={16} /> },
+      { label: 'BNS Explainer', query: 'Explain the main changes from IPC to BNS', icon: <BookOpen size={16} /> },
     ],
     Advocate: [
-      { label: "Draft Document", query: "Help me draft a legal document", icon: <FileText size={16} /> },
-      { label: "Case Law Search", query: "Find recent case laws on", icon: <Search size={16} /> }
+      { label: 'Draft Document', query: 'Help me draft a legal document', icon: <FileText size={16} /> },
+      { label: 'Case Law Search', query: 'Find recent case laws on', icon: <Search size={16} /> },
     ],
     Police: [
-      { label: "FIR Template", query: "Show me FIR filing template and format", icon: <FileText size={16} /> },
-      { label: "Evidence Rules", query: "What are the evidence documentation rules?", icon: <Shield size={16} /> }
+      { label: 'Offence Lookup', query: 'Which BNS section applies to', icon: <Search size={16} /> },
+      { label: 'Evidence Rules', query: 'What are the evidence documentation rules?', icon: <Shield size={16} /> },
     ],
     Student: [
-      { label: "Explain Concept", query: "Explain this legal concept in detail:", icon: <BookOpen size={16} /> },
-      { label: "Case Analysis", query: "Analyze this landmark case:", icon: <Search size={16} /> }
-    ]
+      { label: 'Explain Concept', query: 'Explain this legal concept in detail:', icon: <BookOpen size={16} /> },
+      { label: 'Case Analysis', query: 'Analyze this landmark case:', icon: <Search size={16} /> },
+    ],
   };
+
+  const firQuickActions = [
+    { label: 'Start FIR Draft', query: 'Start an FIR interview for my complaint', icon: <ClipboardList size={16} /> },
+    { label: 'Theft FIR', query: 'I want to file an FIR for theft of my belongings', icon: <FileText size={16} /> },
+    { label: 'Assault FIR', query: 'Guide me to file an FIR for physical assault', icon: <Shield size={16} /> },
+  ];
+
+  const suggestionPrompts = isFirMode
+    ? firPrompts
+    : (legalPrompts[user?.role] || legalPrompts.Citizen);
+
+  const quickActions = isFirMode
+    ? firQuickActions
+    : (legalQuickActions[user?.role] || legalQuickActions.Citizen);
 
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
@@ -350,23 +373,28 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
           <motion.div
             initial={{ y: -12, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="bg-white/95 dark:bg-white/5 border border-slate-300 dark:border-white/10 text-ink-mute dark:text-slate-300 px-4 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2 backdrop-blur-md shadow-sm"
+            className="bg-teal-700/10 border border-teal-700/25 text-teal-900 dark:text-teal-300 px-4 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 backdrop-blur-md"
           >
-            <Shield size={14} className="text-teal-700 dark:text-teal-400" />
+            <Scale size={14} />
             Legal Assistant
           </motion.div>
         )}
       </div>
 
       {/* Compact mode chip on mobile */}
-      {mode === 'report' && (
-        <div className="md:hidden flex justify-center px-3 pt-2 shrink-0">
+      <div className="md:hidden flex justify-center px-3 pt-2 shrink-0">
+        {isFirMode ? (
           <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-500/40 text-red-700 dark:text-red-300 px-3 py-1 rounded-lg text-[11px] font-semibold flex items-center gap-1.5">
             <AlertCircle size={12} />
             FIR filing mode
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="bg-teal-700/10 border border-teal-700/25 text-teal-900 dark:text-teal-300 px-3 py-1 rounded-lg text-[11px] font-semibold flex items-center gap-1.5">
+            <Scale size={12} />
+            Legal Assistant
+          </div>
+        )}
+      </div>
 
       <div className="flex-1 overflow-y-auto p-3 md:p-6 space-y-2 scrollbar-hide pt-3 md:pt-14 relative z-10">
         {messages.length === 0 && (
@@ -376,56 +404,78 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
             transition={{ duration: 0.45 }}
             className="h-full flex flex-col items-center justify-start md:justify-center text-center pt-2 md:pt-0 pb-4"
           >
-            {/* Hide large avatar on mobile — already in header */}
-            <div className="hidden md:block w-20 h-20 rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden mb-5 bg-white dark:bg-white/5">
-              {user?.photo ? (
+            <div
+              className={`hidden md:flex w-20 h-20 rounded-2xl border overflow-hidden mb-5 items-center justify-center ${
+                isFirMode
+                  ? 'border-red-200 dark:border-red-500/30 bg-red-50 dark:bg-red-950/30'
+                  : 'border-teal-200 dark:border-teal-500/25 bg-teal-50 dark:bg-teal-950/20'
+              }`}
+            >
+              {isFirMode ? (
+                <ClipboardList size={30} className="text-red-600 dark:text-red-300" />
+              ) : user?.photo ? (
                 <img src={user.photo} alt="User" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <User size={28} className="text-teal-800 dark:text-teal-300" />
-                </div>
+                <Scale size={28} className="text-teal-800 dark:text-teal-300" />
               )}
             </div>
 
             <h2 className="font-display text-3xl sm:text-3xl md:text-4xl font-semibold text-ink dark:text-white mb-1.5 md:mb-2 tracking-normal leading-snug">
-              {greeting}, {user?.name?.split(' ')[0] || 'Citizen'}
+              {isFirMode ? 'File your FIR' : `${greeting}, ${user?.name?.split(' ')[0] || 'Citizen'}`}
             </h2>
-            <p className="text-sm md:text-base text-ink-mute dark:text-slate-400 mb-5 md:mb-8 max-w-md px-2">
-              Ask a BNS / legal question, or pick a suggestion below.
+            <p
+              className={`text-sm md:text-base mb-5 md:mb-8 max-w-md px-2 ${
+                isFirMode ? 'text-red-700/80 dark:text-red-200/80' : 'text-ink-mute dark:text-slate-400'
+              }`}
+            >
+              {isFirMode
+                ? 'Describe the incident. These FIR-focused prompts help you start the complaint draft.'
+                : 'Ask a BNS / legal question, or pick a Legal Assistant suggestion below.'}
             </p>
 
             <div className="w-full max-w-2xl px-0.5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 md:gap-3">
-                {(rolePrompts[user?.role] || rolePrompts.Citizen).slice(0, 4).map((prompt, idx) => (
+                {suggestionPrompts.slice(0, 4).map((prompt, idx) => (
                   <motion.button
-                    key={idx}
+                    key={`${isFirMode ? 'fir' : 'legal'}-${idx}`}
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.06 * idx, duration: 0.35 }}
                     whileTap={{ scale: 0.99 }}
                     onClick={() => {
-                      setInput(prompt);
-                      handleSend(prompt);
+                      const text = typeof prompt === 'string' ? prompt : prompt.text;
+                      setInput(text);
+                      handleSend(text);
                     }}
-                    className="flex items-start gap-2.5 text-left p-3 md:p-4 rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-white/[0.03] active:border-teal-700/50 dark:active:border-teal-400/40 transition-colors text-[13px] md:text-sm text-ink-soft dark:text-slate-300 shadow-sm"
+                    className={`flex items-start gap-2.5 text-left p-3 md:p-4 rounded-xl border transition-colors text-[13px] md:text-sm shadow-sm ${
+                      isFirMode
+                        ? 'border-red-200 dark:border-red-500/30 bg-red-50/80 dark:bg-red-950/25 text-red-950 dark:text-red-100 active:border-red-500/60'
+                        : 'border-teal-200/80 dark:border-teal-500/20 bg-white dark:bg-teal-950/10 text-ink-soft dark:text-slate-300 active:border-teal-700/50 dark:active:border-teal-400/40'
+                    }`}
                   >
-                    <MessageSquare size={15} className="text-teal-800 dark:text-teal-400 shrink-0 mt-0.5" />
-                    <span className="leading-snug">{prompt}</span>
+                    <span className={`shrink-0 mt-0.5 ${isFirMode ? 'text-red-600 dark:text-red-300' : 'text-teal-800 dark:text-teal-400'}`}>
+                      {prompt.icon || <MessageSquare size={15} />}
+                    </span>
+                    <span className="leading-snug">{typeof prompt === 'string' ? prompt : prompt.text}</span>
                   </motion.button>
                 ))}
               </div>
             </div>
 
             <div className="mt-4 md:mt-6 flex flex-wrap gap-2 justify-center px-1">
-              {(roleQuickActions[user?.role] || roleQuickActions.Citizen).map((action, idx) => (
+              {quickActions.map((action, idx) => (
                 <button
-                  key={idx}
+                  key={`${isFirMode ? 'fir-qa' : 'legal-qa'}-${idx}`}
                   type="button"
                   onClick={() => {
                     setInput(action.query);
                     handleSend(action.query);
                   }}
-                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-teal-700/10 active:bg-teal-700/15 border border-teal-700/20 text-teal-900 dark:text-teal-300 font-medium transition-colors text-xs md:text-sm"
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl font-medium transition-colors text-xs md:text-sm border ${
+                    isFirMode
+                      ? 'bg-red-600/10 active:bg-red-600/15 border-red-600/25 text-red-800 dark:text-red-300'
+                      : 'bg-teal-700/10 active:bg-teal-700/15 border-teal-700/20 text-teal-900 dark:text-teal-300'
+                  }`}
                 >
                   {action.icon || <Zap size={16} />}
                   {action.label}

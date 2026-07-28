@@ -8,6 +8,7 @@ import BootScreen from './components/BootScreen';
 import SettingsModal from './components/Modals/SettingsModal';
 import RoleSelectGate from './components/RoleSelectGate';
 import GovServices from './components/GovServices';
+import IpcBnsMapper from './components/IpcBnsMapper';
 import HomePage from './pages/HomePage';
 import AuthPage from './pages/AuthPage';
 import { useLegalAI } from './hooks/useLegalAI';
@@ -141,6 +142,17 @@ const AnimatedRoutes = ({ isAuthenticated, authChecked, handleGoogleLogin, onSel
                         className="flex-1 overflow-hidden"
                       >
                         <GovServices />
+                      </motion.div>
+                    ) : appProps.mode === 'ipc-bns' ? (
+                      <motion.div
+                        key="ipc-bns"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ duration: 0.25 }}
+                        className="flex-1 overflow-hidden"
+                      >
+                        <IpcBnsMapper />
                       </motion.div>
                     ) : (
                       <motion.div
