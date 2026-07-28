@@ -100,7 +100,7 @@ const HomePage = () => {
                             variants={fadeUp}
                             className="text-base md:text-lg text-ink-mute dark:text-slate-300/95 max-w-xl leading-relaxed mb-9"
                         >
-                            Ask about the new Bharatiya Nyaya Sanhita (BNS), draft documents, and navigate government services — in the language you speak.
+                            Ask about the new Bharatiya Nyaya Sanhita (BNS), draft documents, and navigate government services — in clear English.
                         </motion.p>
                         <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3">
                             <motion.button
@@ -166,7 +166,7 @@ const HomePage = () => {
                             {
                                 icon: <Mic className="w-6 h-6" />,
                                 title: 'Voice Assistant',
-                                desc: 'Speak your question naturally. Hear responses back in the same language.',
+                                desc: 'Speak your question naturally in English. Hear responses spoken back to you.',
                             },
                         ].map((item, i) => (
                             <motion.div
@@ -242,8 +242,8 @@ const HomePage = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                         {[
-                            { step: '01', title: 'Ask', desc: 'Type or speak your legal question in any language you prefer.', icon: <MessageSquare className="w-5 h-5" /> },
-                            { step: '02', title: 'Understand', desc: 'Receive plain-language guidance based on Indian statutes and process.', icon: <Zap className="w-5 h-5" /> },
+                            { step: '01', title: 'Ask', desc: 'Type or speak your legal question in English.', icon: <MessageSquare className="w-5 h-5" /> },
+                            { step: '02', title: 'Understand', desc: 'Receive plain-English guidance based on Indian statutes and process.', icon: <Zap className="w-5 h-5" /> },
                             { step: '03', title: 'Act', desc: 'File reports, draft notices, or open the right government service.', icon: <CheckCircle className="w-5 h-5" /> }
                         ].map((item, i) => (
                             <motion.div
@@ -305,7 +305,7 @@ const HomePage = () => {
                             {[
                                 { icon: <Shield className="w-5 h-5" />, title: 'Affordable clarity', desc: 'Get direction on common issues without burning savings on a first consult.' },
                                 { icon: <Zap className="w-5 h-5" />, title: 'Immediate response', desc: 'Draft templates and procedural guidance in seconds, not weeks.' },
-                                { icon: <Scale className="w-5 h-5" />, title: 'Plain-language law', desc: 'BNS sections, rights, and remedies explained in the language you actually use.' }
+                                { icon: <Scale className="w-5 h-5" />, title: 'Plain-language law', desc: 'BNS sections, rights, and remedies explained in clear, simple English.' }
                             ].map((row, i) => (
                                 <motion.div
                                     key={row.title}
