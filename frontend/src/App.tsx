@@ -107,7 +107,7 @@ const AnimatedRoutes = ({ isAuthenticated, handleGoogleLogin, appProps }) => {
                       </button>
                       <span className="flex items-center gap-2 min-w-0">
                         <img src="/logo.png" alt="Nyay Sahayak" className="w-7 h-7 rounded-md shrink-0" />
-                        <span className="font-display font-semibold text-ink dark:text-white tracking-tight text-lg truncate">
+                        <span className="font-display font-normal text-ink dark:text-white tracking-normal text-lg truncate">
                           Nyay Sahayak
                         </span>
                       </span>
