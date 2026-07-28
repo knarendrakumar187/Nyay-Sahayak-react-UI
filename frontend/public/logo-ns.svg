@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#0B1F2A"/>
+  <!-- NS monogram -->
+  <text x="32" y="42" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="700" fill="#14B8A6" letter-spacing="-1">NS</text>
+  <path d="M16 48h32" stroke="#5EEAD4" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+</svg>

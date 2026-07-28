@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#0B1F2A"/>
+  <!-- Stylized Devanagari-inspired Nyay mark: abstract "(" geometry -->
+  <path d="M20 18h24" stroke="#14B8A6" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M32 18v28" stroke="#14B8A6" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M20 32c0 10 5.5 16 12 16s12-6 12-16" stroke="#5EEAD4" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+</svg>

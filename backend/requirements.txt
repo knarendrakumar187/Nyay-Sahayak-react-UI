@@ -1,0 +1,23 @@
+# Core FastAPI
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+
+# AI - Groq Only (lightweight)
+langchain-core
+langchain-groq
+groq
+
+# Database
+chromadb
+
+# Document Processing
+pypdf
+fpdf
+python-docx
+PyPDF2
+
+# Utilities
+python-dotenv
+requests
