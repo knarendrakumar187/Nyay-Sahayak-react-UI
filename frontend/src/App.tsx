@@ -106,8 +106,8 @@ const AnimatedRoutes = ({ isAuthenticated, handleGoogleLogin, appProps }) => {
                         <Menu size={22} />
                       </button>
                       <span className="flex items-center gap-2 min-w-0">
-                        <img src="/logo.png" alt="Nyay Sahayak" className="w-6 h-6 rounded-md shrink-0" />
-                        <span className="font-display font-semibold text-ink dark:text-white tracking-tight text-sm truncate">
+                        <img src="/logo.png" alt="Nyay Sahayak" className="w-7 h-7 rounded-md shrink-0" />
+                        <span className="font-display font-semibold text-ink dark:text-white tracking-tight text-lg truncate">
                           Nyay Sahayak
                         </span>
                       </span>
