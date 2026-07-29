@@ -9,6 +9,7 @@ import SettingsModal from './components/Modals/SettingsModal';
 import RoleSelectGate from './components/RoleSelectGate';
 import GovServices from './components/GovServices';
 import IpcBnsMapper from './components/IpcBnsMapper';
+import LawStudentQuiz from './components/LawStudentQuiz';
 import HomePage from './pages/HomePage';
 import AuthPage from './pages/AuthPage';
 import { useLegalAI } from './hooks/useLegalAI';
@@ -154,6 +155,17 @@ const AnimatedRoutes = ({ isAuthenticated, authChecked, handleGoogleLogin, onSel
                         className="flex-1 overflow-hidden"
                       >
                         <IpcBnsMapper />
+                      </motion.div>
+                    ) : appProps.mode === 'quiz' ? (
+                      <motion.div
+                        key="quiz"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ duration: 0.25 }}
+                        className="flex-1 overflow-hidden"
+                      >
+                        <LawStudentQuiz />
                       </motion.div>
                     ) : (
                       <motion.div

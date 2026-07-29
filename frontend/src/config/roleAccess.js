@@ -1,9 +1,10 @@
 import React from 'react';
-import { MessageSquare, Shield, Globe, ArrowLeftRight, FileText, BookOpen, Gavel } from 'lucide-react';
+import { MessageSquare, Shield, Globe, ArrowLeftRight, FileText, BookOpen, Gavel, ListChecks } from 'lucide-react';
 
 /**
  * Role-based app tools.
  * FIR (report) is Police-only.
+ * Quiz is Law Student–only.
  * IPC ↔ BNS Mapping is available for every role, including Citizen.
  */
 export const ROLE_MENUS = {
@@ -25,6 +26,7 @@ export const ROLE_MENUS = {
   ],
   Student: [
     { id: 'chat', label: 'Learn BNS', icon: 'BookOpen' },
+    { id: 'quiz', label: 'BNS Practice Quiz', icon: 'ListChecks' },
     { id: 'ipc-bns', label: 'IPC ↔ BNS Mapping', icon: 'ArrowLeftRight' },
     { id: 'digital', label: 'Explore Services', icon: 'Globe' },
   ],
@@ -38,6 +40,7 @@ const ICONS = {
   FileText: FileText,
   BookOpen: BookOpen,
   Gavel: Gavel,
+  ListChecks: ListChecks,
 };
 
 export const normalizeRole = (role) => {
