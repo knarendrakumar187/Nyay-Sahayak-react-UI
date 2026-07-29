@@ -111,7 +111,7 @@ const GovServices = () => {
     : services.filter(s => s.category === filter);
 
   return (
-    <div className="h-full overflow-y-auto p-6 md:p-8 scrollbar-hide bg-background-light dark:bg-bg-deep">
+    <div className="h-full overflow-y-auto p-6 md:p-8 scrollbar-hide bg-background-light/80 dark:bg-transparent">
       <div className="mb-8">
         <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-semibold text-ink dark:text-white mb-2 tracking-normal flex items-center gap-2.5 md:gap-3 leading-snug">
           <Globe className="text-teal-800 dark:text-teal-300 w-7 h-7 md:w-8 md:h-8 shrink-0" />
@@ -134,8 +134,8 @@ const GovServices = () => {
             onClick={() => setFilter(btn.id)}
             className={`relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
               filter === btn.id
-                ? 'bg-ink text-white dark:bg-accent-gold'
-                : 'bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-ink-mute dark:text-slate-400 hover:text-ink dark:hover:text-white'
+                ? 'bg-ink text-white dark:bg-teal-700'
+                : 'bg-white dark:bg-white/[0.06] border border-slate-200 dark:border-teal-400/15 text-ink-mute dark:text-slate-300 hover:text-ink dark:hover:text-white'
             }`}
           >
             {btn.icon} {btn.label}

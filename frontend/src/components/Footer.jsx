@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, Lock } from 'lucide-react';
+import { Shield, Lock, Github } from 'lucide-react';
+
+const GITHUB_URL = 'https://github.com/knarendrakumar187/Nyay-Sahayak-react-UI';
 
 const Footer = () => {
     return (
@@ -30,6 +32,15 @@ const Footer = () => {
                                 <Lock className="w-4 h-4 text-teal-400" />
                                 <span>Secure & Private</span>
                             </div>
+                            <a
+                                href={GITHUB_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-3 text-sm text-slate-400 hover:text-teal-300 transition-colors"
+                            >
+                                <Github className="w-4 h-4 text-teal-400" />
+                                <span>View on GitHub</span>
+                            </a>
                         </div>
                     </div>
 
@@ -40,9 +51,19 @@ const Footer = () => {
                                 { name: 'Features', href: '#features' },
                                 { name: 'Why Choose Us', href: '#why-us' },
                                 { name: 'Get Started', href: '/login', isLink: true },
+                                { name: 'GitHub', href: GITHUB_URL, isExternal: true },
                             ].map((link) => (
                                 <li key={link.name}>
-                                    {link.isLink ? (
+                                    {link.isExternal ? (
+                                        <a
+                                            href={link.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-sm text-slate-400 hover:text-teal-300 transition-colors"
+                                        >
+                                            {link.name}
+                                        </a>
+                                    ) : link.isLink ? (
                                         <Link to={link.href} className="text-sm text-slate-400 hover:text-teal-300 transition-colors">
                                             {link.name}
                                         </Link>
@@ -66,10 +87,19 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div className="border-t border-white/10 pt-8">
+                <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
                     <p className="text-sm text-slate-500 text-center">
                         © {new Date().getFullYear()} Nyay Sahayak. All rights reserved. Built for India.
                     </p>
+                    <a
+                        href={GITHUB_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-teal-300 transition-colors"
+                    >
+                        <Github className="w-3.5 h-3.5" />
+                        Source code
+                    </a>
                 </div>
             </div>
         </footer>

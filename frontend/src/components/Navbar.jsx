@@ -49,7 +49,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
             className={`fixed top-0 z-50 w-full transition-all duration-500 ${
                 darkMode
                     ? scrolled
-                        ? 'border-b border-white/10 bg-[#07131C]/90 backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.2)]'
+                        ? 'border-b border-teal-400/15 bg-[#07131C]/92 backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.28)]'
                         : 'border-b border-transparent bg-[#07131C]/55 backdrop-blur-xl'
                     : scrolled
                         ? 'border-b border-slate-200/80 bg-white/90 backdrop-blur-2xl shadow-[0_8px_28px_rgba(7,19,28,0.08)]'

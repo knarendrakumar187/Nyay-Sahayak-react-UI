@@ -42,9 +42,10 @@
   html.dark body {
     @apply bg-bg-deep text-slate-200;
     background-image:
-      radial-gradient(ellipse 70% 45% at 10% -5%, rgba(18, 163, 148, 0.12), transparent 50%),
-      radial-gradient(ellipse 50% 35% at 95% 5%, rgba(22, 50, 79, 0.35), transparent 45%),
-      linear-gradient(180deg, #070C12 0%, #0B121A 100%);
+      radial-gradient(ellipse 75% 50% at 8% -8%, rgba(18, 163, 148, 0.16), transparent 52%),
+      radial-gradient(ellipse 55% 40% at 92% 8%, rgba(22, 50, 79, 0.42), transparent 48%),
+      radial-gradient(ellipse 45% 30% at 50% 100%, rgba(10, 107, 99, 0.08), transparent 55%),
+      linear-gradient(180deg, #070C12 0%, #0A121A 55%, #0B141C 100%);
   }
 
   h1, h2, h3, h4, .font-display, .font-legal {
@@ -128,6 +129,52 @@
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   }
 
+  html.dark .glass-panel {
+    border-color: rgba(18, 163, 148, 0.22);
+    box-shadow:
+      0 20px 56px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      0 0 0 1px rgba(10, 107, 99, 0.06);
+  }
+
+  /* Soft page shell — lets body radials show through instead of flat black */
+  .dark-shell {
+    @apply bg-background-light;
+  }
+
+  html.dark .dark-shell {
+    background-color: transparent;
+  }
+
+  .section-band {
+    @apply bg-white/60 border-y border-slate-200/70;
+  }
+
+  html.dark .section-band {
+    background:
+      linear-gradient(180deg, rgba(14, 20, 28, 0.72) 0%, rgba(11, 18, 26, 0.88) 100%);
+    border-color: rgba(18, 163, 148, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .reveal-line {
+    @apply h-px w-10 rounded-full bg-teal-700/35;
+    transition: width 0.4s var(--ease-out), background-color 0.3s ease;
+  }
+
+  .group:hover .reveal-line {
+    width: 3.25rem;
+    background-color: rgba(10, 107, 99, 0.65);
+  }
+
+  html.dark .reveal-line {
+    background-color: rgba(94, 234, 212, 0.35);
+  }
+
+  html.dark .group:hover .reveal-line {
+    background-color: rgba(94, 234, 212, 0.7);
+  }
+
   .glass-panel-hover {
     @apply glass-panel transition-all duration-500;
   }
@@ -188,14 +235,15 @@
   }
 
   html.dark .btn-primary-hero {
-    @apply bg-white text-ink;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    background: linear-gradient(135deg, #0A6B63 0%, #12A394 100%);
+    color: #fff;
+    box-shadow: 0 12px 40px rgba(10, 107, 99, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.18);
     filter: none;
   }
 
   html.dark .btn-primary-hero:hover {
-    background: #F0FDFA;
-    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.22);
+    background: linear-gradient(135deg, #0C7A71 0%, #14B8A6 100%);
+    box-shadow: 0 16px 48px rgba(10, 107, 99, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.22);
   }
 
   .btn-ghost-hero {
@@ -210,12 +258,15 @@
   }
 
   html.dark .btn-ghost-hero {
-    @apply border-white/25 bg-white/[0.06] text-white;
+    border-color: rgba(94, 234, 212, 0.28);
+    background: rgba(14, 20, 28, 0.45);
+    color: #E2E8F0;
+    backdrop-filter: blur(8px);
   }
 
   html.dark .btn-ghost-hero:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(18, 163, 148, 0.14);
+    border-color: rgba(94, 234, 212, 0.45);
   }
 
   .text-gradient-gold {
@@ -277,13 +328,25 @@
   }
 
   html.dark .surface-card {
-    @apply border-white/10 bg-white/[0.03];
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+    background: linear-gradient(165deg, rgba(18, 26, 36, 0.92) 0%, rgba(12, 18, 26, 0.88) 100%);
+    border-color: rgba(18, 163, 148, 0.16);
+    box-shadow:
+      0 14px 40px rgba(0, 0, 0, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 
   html.dark .surface-card:hover {
-    border-color: rgba(18, 163, 148, 0.35);
-    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.36);
+    border-color: rgba(18, 163, 148, 0.4);
+    box-shadow:
+      0 20px 48px rgba(0, 0, 0, 0.42),
+      0 0 0 1px rgba(18, 163, 148, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  html.dark .chat-bubble-ai {
+    background: linear-gradient(165deg, #141C26 0%, #101820 100%);
+    border-color: rgba(18, 163, 148, 0.18);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   }
 
   .chat-bubble-user,
@@ -293,10 +356,6 @@
 
   .chat-bubble-ai {
     border-color: #cbd5e1;
-  }
-
-  html.dark .chat-bubble-ai {
-    border-color: rgba(255, 255, 255, 0.15);
   }
 }
 

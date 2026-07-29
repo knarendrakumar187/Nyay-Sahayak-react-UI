@@ -93,8 +93,8 @@ const Sidebar = ({ mode, setMode, user, onOpenSettings, onLoadChat, isOpen, onCl
     // Dynamic Classes based on Collapse
     // Note: do not use Framer `layout` on this aside — it fights translateX and breaks the mobile close button.
     const sidebarClasses = `
-    fixed inset-y-0 left-0 z-[70] bg-white dark:bg-[#0F141C] border-r border-slate-200 dark:border-white/5 
-    transition-transform duration-300 ease-out flex flex-col shadow-soft w-[min(18rem,86vw)]
+    fixed inset-y-0 left-0 z-[70] bg-white dark:bg-surface-dark border-r border-slate-200 dark:border-teal-400/12 
+    transition-transform duration-300 ease-out flex flex-col shadow-soft dark:shadow-[4px_0_32px_rgba(0,0,0,0.35)] w-[min(18rem,86vw)]
     md:translate-x-0 md:static md:w-auto md:transition-[width]
     ${isOpen ? 'translate-x-0 pointer-events-auto' : '-translate-x-full pointer-events-none md:pointer-events-auto md:translate-x-0'}
     ${isCollapsed ? 'md:w-20' : 'md:w-72'} 
@@ -122,7 +122,7 @@ const Sidebar = ({ mode, setMode, user, onOpenSettings, onLoadChat, isOpen, onCl
             <aside className={sidebarClasses} aria-hidden={!isOpen}>
 
                 {/* Header */}
-                <div className={`p-4 md:p-5 border-b border-slate-200 dark:border-white/5 flex items-center gap-2 shrink-0 ${isCollapsed ? 'justify-center' : 'justify-between'} transition-all duration-300`}>
+                <div className={`p-4 md:p-5 border-b border-slate-200 dark:border-teal-400/10 flex items-center gap-2 shrink-0 ${isCollapsed ? 'justify-center' : 'justify-between'} transition-all duration-300`}>
                     {!isCollapsed && (
                         <button
                             type="button"
@@ -219,8 +219,8 @@ const Sidebar = ({ mode, setMode, user, onOpenSettings, onLoadChat, isOpen, onCl
                                     onClick={() => { setMode(item.id); onClose?.(); }}
                                     className={`relative w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-300 overflow-hidden ${
                                         isActive 
-                                            ? 'bg-teal-700/10 text-ink dark:text-white font-semibold' 
-                                            : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-ink dark:hover:text-slate-200'
+                                            ? 'bg-teal-700/10 text-ink dark:bg-teal-400/10 dark:text-white font-semibold'
+                                            : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/[0.06] hover:text-ink dark:hover:text-slate-200'
                                     } ${isCollapsed ? 'justify-center' : ''}`}
                                     title={isCollapsed ? item.label : ''}
                                 >
@@ -333,11 +333,11 @@ const Sidebar = ({ mode, setMode, user, onOpenSettings, onLoadChat, isOpen, onCl
                 </AnimatePresence>
 
                 {/* Bottom Config */}
-                <div className={`p-4 border-t border-slate-200 dark:border-white/5 transition-all duration-300 mt-auto shrink-0 bg-white dark:bg-[#0F141C]`}>
+                <div className={`p-4 border-t border-slate-200 dark:border-teal-400/10 transition-all duration-300 mt-auto shrink-0 bg-white dark:bg-surface-dark`}>
                     <button 
                         type="button"
                         onClick={() => { onOpenSettings(); onClose?.(); }} 
-                        className={`w-full flex items-center gap-3 p-3 rounded-xl bg-slate-100 dark:bg-white/5 text-ink dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/10 dark:hover:text-white transition-all text-sm font-semibold border border-slate-200 dark:border-transparent justify-center`}
+                        className={`w-full flex items-center gap-3 p-3 rounded-xl bg-slate-100 dark:bg-white/[0.06] text-ink dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-teal-400/10 dark:hover:text-white transition-all text-sm font-semibold border border-slate-200 dark:border-white/10 justify-center`}
                     >
                         <Settings size={18} className="text-slate-400" />
                         {!isCollapsed && (

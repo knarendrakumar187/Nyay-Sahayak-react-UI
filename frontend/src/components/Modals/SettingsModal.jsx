@@ -197,15 +197,15 @@ function SettingsContent({ user, setUser, theme, setTheme, onClose, onLogout, ha
           <div className={card}>
             <div className="flex items-center justify-between gap-3">
               <label className={`text-sm font-semibold flex items-center gap-2 ${title}`}>
-                {theme === 'dark' ? <Moon size={18} className="text-sky-500" /> : <Sun size={18} className="text-amber-500" />}
+                {theme === 'dark' ? <Moon size={18} className="text-teal-400" /> : <Sun size={18} className="text-amber-500" />}
                 Theme
               </label>
-              <div className={`flex gap-1 p-1 rounded-lg border ${isLight ? 'bg-white border-slate-200' : 'bg-black/40 border-white/10'}`}>
+              <div className={`flex gap-1 p-1 rounded-lg border ${isLight ? 'bg-white border-slate-200' : 'bg-black/40 border-teal-400/15'}`}>
                 <button
                   type="button"
                   onClick={() => setTheme('light')}
                   className={`px-3 py-1.5 rounded-md text-xs font-bold transition-colors ${
-                    theme === 'light' ? 'bg-emerald-500 text-white' : isLight ? 'text-ink-mute' : 'text-slate-400'
+                    theme === 'light' ? 'bg-teal-700 text-white' : isLight ? 'text-ink-mute' : 'text-slate-400'
                   }`}
                 >
                   Light
@@ -214,7 +214,7 @@ function SettingsContent({ user, setUser, theme, setTheme, onClose, onLogout, ha
                   type="button"
                   onClick={() => setTheme('dark')}
                   className={`px-3 py-1.5 rounded-md text-xs font-bold transition-colors ${
-                    theme === 'dark' ? 'bg-sky-600 text-white' : isLight ? 'text-ink-mute' : 'text-slate-400'
+                    theme === 'dark' ? 'bg-teal-600 text-white' : isLight ? 'text-ink-mute' : 'text-slate-400'
                   }`}
                 >
                   Dark

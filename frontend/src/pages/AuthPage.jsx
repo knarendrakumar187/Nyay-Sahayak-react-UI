@@ -138,15 +138,15 @@ const AuthPage = ({ handleGoogleLogin, onSelectRole }) => {
         'w-full pl-12 pr-4 py-3.5 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-700/30 focus:border-teal-700 transition-all text-ink dark:text-white placeholder-slate-400';
 
     return (
-        <div className="min-h-screen bg-background-light dark:bg-bg-deep text-ink dark:text-slate-100 font-body flex items-center justify-center p-4 relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(10,107,99,0.14),_transparent_50%),radial-gradient(ellipse_at_bottom_left,_rgba(22,50,79,0.12),_transparent_45%)] pointer-events-none" />
+        <div className="min-h-screen dark-shell text-ink dark:text-slate-100 font-body flex items-center justify-center p-4 relative overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(10,107,99,0.14),_transparent_50%),radial-gradient(ellipse_at_bottom_left,_rgba(22,50,79,0.12),_transparent_45%)] dark:bg-[radial-gradient(ellipse_at_top_right,_rgba(18,163,148,0.18),_transparent_52%),radial-gradient(ellipse_at_bottom_left,_rgba(22,50,79,0.35),_transparent_48%)] pointer-events-none" />
 
             <motion.button
                 initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.45 }}
                 onClick={() => navigate('/')}
-                className="absolute top-6 left-6 flex items-center gap-2 text-slate-300 hover:text-white transition-colors z-20"
+                className="absolute top-6 left-6 flex items-center gap-2 text-ink-mute hover:text-ink dark:text-slate-300 dark:hover:text-white transition-colors z-20"
             >
                 <ArrowLeft className="w-5 h-5" />
                 <span className="text-sm font-medium">Back to Home</span>
@@ -172,8 +172,8 @@ const AuthPage = ({ handleGoogleLogin, onSelectRole }) => {
                     </p>
                 </div>
 
-                <div className="surface-card rounded-2xl p-7 md:p-8">
-                    <div className="flex gap-1 mb-7 p-1 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200/80 dark:border-white/5">
+                <div className="glass-panel rounded-2xl p-7 md:p-8">
+                    <div className="flex gap-1 mb-7 p-1 rounded-xl bg-slate-100 dark:bg-white/[0.06] border border-slate-200/80 dark:border-teal-400/15">
                         <button
                             type="button"
                             onClick={() => { setIsLogin(true); setError(''); }}

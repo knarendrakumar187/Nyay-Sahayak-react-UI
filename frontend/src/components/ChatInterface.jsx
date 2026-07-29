@@ -525,7 +525,7 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
                 ? 'chat-bubble-user bg-ink rounded-tr-md shadow-soft border border-ink'
                 : mode === 'report'
                   ? 'bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-500/30 text-red-900 dark:text-red-100 rounded-tl-md'
-                  : 'chat-bubble-ai bg-white dark:bg-[#121821] border border-slate-300 dark:border-white/15 text-ink-soft dark:text-slate-200 rounded-tl-md shadow-soft'
+                  : 'chat-bubble-ai bg-white dark:bg-bg-input border border-slate-300 dark:border-teal-400/20 text-ink-soft dark:text-slate-200 rounded-tl-md shadow-soft'
                 }`}>
                 
                 <div className="whitespace-pre-wrap">{formatMessage(msg.text)}</div>
@@ -587,10 +587,10 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
       <div className="p-2.5 md:p-5 shrink-0 relative z-20 pb-[max(0.65rem,env(safe-area-inset-bottom))]">
         <div className="max-w-3xl mx-auto">
           <div
-            className={`flex items-end gap-1.5 md:gap-2 rounded-2xl border-2 bg-white dark:bg-[#0E141C] p-1.5 pl-2.5 md:p-2 md:pl-3 shadow-soft transition-all duration-300 ${
+            className={`flex items-end gap-1.5 md:gap-2 rounded-2xl border-2 bg-white dark:bg-surface-dark/95 dark:backdrop-blur-md p-1.5 pl-2.5 md:p-2 md:pl-3 shadow-soft dark:shadow-[0_12px_36px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.05)] transition-all duration-300 ${
               mode === 'report'
                 ? 'border-red-300 dark:border-red-500/40 focus-within:border-red-500 focus-within:shadow-[0_0_0_4px_rgba(220,38,38,0.1)]'
-                : 'border-slate-300 dark:border-white/15 focus-within:border-teal-700 dark:focus-within:border-teal-400/50 focus-within:shadow-[0_0_0_4px_rgba(10,107,99,0.12)]'
+                : 'border-slate-300 dark:border-teal-400/20 focus-within:border-teal-700 dark:focus-within:border-teal-400/50 focus-within:shadow-[0_0_0_4px_rgba(10,107,99,0.12)]'
             }`}
           >
             <textarea

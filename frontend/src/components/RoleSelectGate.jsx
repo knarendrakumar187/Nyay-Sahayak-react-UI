@@ -17,7 +17,7 @@ const RoleSelectGate = ({ onSelect }) => {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25 }}
-        className="w-full max-w-md rounded-2xl bg-white dark:bg-[#121821] border border-slate-200 dark:border-white/10 shadow-2xl p-6"
+        className="w-full max-w-md rounded-2xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-teal-400/20 shadow-2xl dark:shadow-[0_24px_64px_rgba(0,0,0,0.5)] p-6"
         role="dialog"
         aria-modal="true"
         aria-labelledby="role-gate-title"
@@ -39,7 +39,7 @@ const RoleSelectGate = ({ onSelect }) => {
               key={role.id}
               type="button"
               onClick={() => onSelect(role.id)}
-              className="w-full text-left rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-4 py-3.5 hover:border-teal-600 hover:bg-teal-700/10 dark:hover:border-teal-400/50 transition-colors"
+              className="w-full text-left rounded-xl border border-slate-200 dark:border-teal-400/12 bg-slate-50 dark:bg-white/[0.04] px-4 py-3.5 hover:border-teal-600 hover:bg-teal-700/10 dark:hover:border-teal-400/40 dark:hover:bg-teal-400/10 transition-colors"
             >
               <p className="font-semibold text-ink dark:text-white">{role.label}</p>
               <p className="text-xs text-ink-mute dark:text-slate-400 mt-0.5">{role.desc}</p>

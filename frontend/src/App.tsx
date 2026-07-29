@@ -79,8 +79,16 @@ const AnimatedRoutes = ({ isAuthenticated, authChecked, handleGoogleLogin, onSel
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4 }}
-                className="flex h-screen bg-background-light dark:bg-bg-deep text-ink dark:text-slate-200 font-body overflow-hidden selection:bg-accent-gold/20"
+                className="flex h-screen dark-shell text-ink dark:text-slate-200 font-body overflow-hidden selection:bg-accent-gold/20 relative"
               >
+                <div
+                  className="pointer-events-none absolute inset-0 hidden dark:block z-0"
+                  aria-hidden="true"
+                  style={{
+                    background:
+                      'radial-gradient(ellipse 55% 40% at 0% 0%, rgba(18,163,148,0.1), transparent 50%), radial-gradient(ellipse 45% 35% at 100% 15%, rgba(22,50,79,0.28), transparent 48%)',
+                  }}
+                />
                 <Sidebar
                   mode={appProps.mode}
                   setMode={(newMode) => {
@@ -99,7 +107,7 @@ const AnimatedRoutes = ({ isAuthenticated, authChecked, handleGoogleLogin, onSel
 
                 <main className="flex-1 relative flex flex-col h-full z-10 w-full">
                   {/* Mobile Header */}
-                  <div className="md:hidden flex items-center justify-between px-3 py-2.5 bg-white/90 dark:bg-bg-panel border-b border-slate-200 dark:border-white/10 sticky top-0 z-20 backdrop-blur-md">
+                  <div className="md:hidden flex items-center justify-between px-3 py-2.5 bg-white/90 dark:bg-surface-dark/90 border-b border-slate-200 dark:border-teal-400/15 sticky top-0 z-20 backdrop-blur-md">
                     <div className="flex items-center gap-2.5 min-w-0">
                       <button
                         type="button"

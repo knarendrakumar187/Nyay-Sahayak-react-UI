@@ -36,7 +36,7 @@ const HomePage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-background-light dark:bg-bg-deep text-ink dark:text-slate-100 font-body transition-colors duration-500">
+        <div className="min-h-screen dark-shell text-ink dark:text-slate-100 font-body transition-colors duration-500">
             <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
 
             <header className="relative min-h-[92vh] flex items-end md:items-center overflow-hidden">
@@ -127,7 +127,15 @@ const HomePage = () => {
             </header>
 
             <section id="features" className="scroll-mt-24 py-24 md:py-28 relative">
-                <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+                <div
+                    className="pointer-events-none absolute inset-0 hidden dark:block opacity-90"
+                    aria-hidden="true"
+                    style={{
+                        background:
+                            'radial-gradient(ellipse 60% 45% at 15% 20%, rgba(18,163,148,0.09), transparent 55%), radial-gradient(ellipse 50% 40% at 90% 70%, rgba(22,50,79,0.2), transparent 50%)',
+                    }}
+                />
+                <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 relative">
                     <motion.div
                         initial="hidden"
                         whileInView="show"
@@ -139,7 +147,7 @@ const HomePage = () => {
                         <h2 className="font-display text-3xl md:text-5xl font-normal text-ink dark:text-white tracking-normal mb-4">
                             Built for real legal work
                         </h2>
-                        <p className="text-ink-mute dark:text-slate-400 text-lg leading-relaxed">
+                        <p className="text-ink-mute dark:text-slate-300 text-lg leading-relaxed">
                             Clear answers grounded in Indian law — without the jargon wall.
                         </p>
                     </motion.div>
@@ -205,7 +213,7 @@ const HomePage = () => {
                                 <h3 className="font-display text-2xl font-normal text-ink dark:text-white mb-2">
                                     {item.title}
                                 </h3>
-                                <p className="text-ink-mute dark:text-slate-400 leading-relaxed">
+                                <p className="text-ink-mute dark:text-slate-300 leading-relaxed">
                                     {item.desc}
                                 </p>
                                 {item.href ? (
@@ -222,7 +230,7 @@ const HomePage = () => {
                 </div>
             </section>
 
-            <section className="py-24 md:py-28 bg-white/60 dark:bg-white/[0.02] border-y border-slate-200/70 dark:border-white/5">
+            <section className="py-24 md:py-28 section-band">
                 <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
                     <motion.div
                         initial="hidden"
@@ -235,7 +243,7 @@ const HomePage = () => {
                         <h2 className="font-display text-3xl md:text-5xl font-normal text-ink dark:text-white tracking-normal mb-4">
                             Three steps to clarity
                         </h2>
-                        <p className="text-ink-mute dark:text-slate-400 text-lg">
+                        <p className="text-ink-mute dark:text-slate-300 text-lg">
                             From question to next action — without waiting weeks for a consultation.
                         </p>
                     </motion.div>
@@ -287,7 +295,7 @@ const HomePage = () => {
                             <h2 className="font-display text-3xl md:text-5xl font-normal text-ink dark:text-white tracking-normal mb-5">
                                 Why Nyay Sahayak
                             </h2>
-                            <p className="text-ink-mute dark:text-slate-400 text-lg leading-relaxed mb-8">
+                            <p className="text-ink-mute dark:text-slate-300 text-lg leading-relaxed mb-8">
                                 Traditional legal help is costly, slow, and intimidating. This assistant is built to make justice more reachable for everyday Indians.
                             </p>
                             <motion.button
@@ -314,7 +322,7 @@ const HomePage = () => {
                                     viewport={{ once: true }}
                                     transition={{ delay: i * 0.1, duration: 0.5, ease }}
                                     whileHover={{ x: 4 }}
-                                    className="flex gap-4 p-5 rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/70 dark:bg-white/[0.03] backdrop-blur-sm"
+                                    className="flex gap-4 p-5 rounded-2xl border border-slate-200/80 dark:border-teal-400/15 bg-white/70 dark:bg-surface-dark/80 backdrop-blur-sm shadow-soft dark:shadow-[0_12px_32px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.05)]"
                                 >
                                     <div className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-700/10 text-teal-800 dark:bg-teal-400/10 dark:text-teal-300">
                                         {row.icon}

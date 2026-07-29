@@ -95,7 +95,7 @@ const IpcBnsMapper = () => {
   };
 
   return (
-    <div className="h-full overflow-y-auto overscroll-contain bg-background-light dark:bg-bg-deep">
+    <div className="h-full overflow-y-auto overscroll-contain bg-background-light/80 dark:bg-transparent">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 md:py-8">
         <div className="mb-6">
           <div className="flex items-center gap-2.5 mb-2">
@@ -220,7 +220,7 @@ const IpcBnsMapper = () => {
               {results.slice(0, 40).map((row, idx) => (
                 <div
                   key={`${row.bns}-${row.ipc}-${idx}`}
-                  className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.03] p-4 md:p-5"
+                  className="rounded-2xl border border-slate-200 dark:border-teal-400/15 bg-white dark:bg-surface-dark/90 p-4 md:p-5"
                 >
                   <div className="flex flex-wrap items-center gap-2 mb-3">
                     <span className={`text-[11px] font-bold uppercase tracking-wide px-2 py-1 rounded-md border ${statusClass(row.status)}`}>
