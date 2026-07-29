@@ -10,6 +10,7 @@ const ROLES = [
     { id: 'Advocate', label: 'Advocate' },
     { id: 'Police', label: 'Police Officer' },
     { id: 'Student', label: 'Law Student' },
+    { id: 'Other', label: 'Other' },
 ];
 
 const AuthPage = ({ handleGoogleLogin, onSelectRole }) => {

@@ -3,8 +3,9 @@ import { MessageSquare, Shield, Globe, ArrowLeftRight, FileText, BookOpen, Gavel
 
 /**
  * Role-based app tools.
- * FIR (report) is Police-only.
- * Quiz is Law Student–only.
+ * FIR (report) is Police-only (plus Other).
+ * Quiz is Law Student–only (plus Other).
+ * Other gets every tool in the app.
  * IPC ↔ BNS Mapping is available for every role, including Citizen.
  */
 export const ROLE_MENUS = {
@@ -26,6 +27,13 @@ export const ROLE_MENUS = {
   ],
   Student: [
     { id: 'chat', label: 'Learn BNS', icon: 'BookOpen' },
+    { id: 'quiz', label: 'BNS Practice Quiz', icon: 'ListChecks' },
+    { id: 'ipc-bns', label: 'IPC ↔ BNS Mapping', icon: 'ArrowLeftRight' },
+    { id: 'digital', label: 'Explore Services', icon: 'Globe' },
+  ],
+  Other: [
+    { id: 'chat', label: 'Ask Legal Help', icon: 'MessageSquare' },
+    { id: 'report', label: 'File Report (FIR)', icon: 'Shield' },
     { id: 'quiz', label: 'BNS Practice Quiz', icon: 'ListChecks' },
     { id: 'ipc-bns', label: 'IPC ↔ BNS Mapping', icon: 'ArrowLeftRight' },
     { id: 'digital', label: 'Explore Services', icon: 'Globe' },
@@ -53,6 +61,7 @@ export const normalizeRole = (role) => {
     'police officer': 'Police',
     student: 'Student',
     'law student': 'Student',
+    other: 'Other',
   };
   if (aliases[key]) return aliases[key];
   if (ROLE_MENUS[role]) return role;

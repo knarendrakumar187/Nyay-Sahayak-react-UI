@@ -7,6 +7,7 @@ const ROLES = [
   { id: 'Advocate', label: 'Advocate', desc: 'Drafts, case help, and legal research' },
   { id: 'Police', label: 'Police Officer', desc: 'FIR guidance and procedure support' },
   { id: 'Student', label: 'Law Student', desc: 'Learn BNS concepts and case law' },
+  { id: 'Other', label: 'Other', desc: 'Full access — chat, FIR, quiz, mapping, and services' },
 ];
 
 const RoleSelectGate = ({ onSelect }) => {

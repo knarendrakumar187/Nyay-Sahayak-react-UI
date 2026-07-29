@@ -156,6 +156,7 @@ function SettingsContent({ user, setUser, theme, setTheme, onClose, onLogout, ha
               <option value="Advocate">Advocate</option>
               <option value="Police">Police Officer</option>
               <option value="Student">Law Student</option>
+              <option value="Other">Other</option>
             </select>
             <p className={`text-[11px] ml-1 ${isLight ? 'text-ink-mute' : 'text-slate-500'}`}>
               Changing role updates the tools shown in the menu.

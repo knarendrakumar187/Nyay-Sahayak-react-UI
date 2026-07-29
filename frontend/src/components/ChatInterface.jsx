@@ -92,6 +92,12 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
       { text: 'Key differences between IPC and BNS', icon: <Scale size={15} /> },
       { text: 'Landmark cases on Article 21', icon: <Search size={15} /> },
     ],
+    Other: [
+      { text: 'What changed from IPC to Bharatiya Nyaya Sanhita?', icon: <BookOpen size={15} /> },
+      { text: 'Help me draft an FIR for mobile phone theft', icon: <Shield size={15} /> },
+      { text: 'Map old IPC 420 to the new BNS section', icon: <Scale size={15} /> },
+      { text: 'Explain bail vs anticipatory bail simply', icon: <Gavel size={15} /> },
+    ],
   };
 
   const firPrompts = [
@@ -118,6 +124,11 @@ const ChatInterface = ({ messages, setMessages, onSendMessage, loading, role, us
     Student: [
       { label: 'Explain Concept', query: 'Explain this legal concept in detail:', icon: <BookOpen size={16} /> },
       { label: 'Case Analysis', query: 'Analyze this landmark case:', icon: <Search size={16} /> },
+    ],
+    Other: [
+      { label: 'BNS Explainer', query: 'Explain the main changes from IPC to BNS', icon: <BookOpen size={16} /> },
+      { label: 'Start FIR Draft', query: 'Start an FIR interview for my complaint', icon: <Shield size={16} /> },
+      { label: 'Map IPC 420', query: 'What is the BNS section for old IPC 420?', icon: <Scale size={16} /> },
     ],
   };
 
