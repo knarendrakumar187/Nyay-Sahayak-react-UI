@@ -22,6 +22,8 @@ import time
 # ==========================================
 load_dotenv()  # loads backend/.env
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip()
+GROQ_TEXT_MODEL = os.getenv("GROQ_TEXT_MODEL", "openai/gpt-oss-120b").strip()
+GROQ_VISION_MODEL = os.getenv("GROQ_VISION_MODEL", "meta-llama/llama-4-scout-17b-16e-instruct").strip()
 
 if not GROQ_API_KEY:
     print("WARNING: GROQ_API_KEY not set! Please set it as an environment variable.")
@@ -63,8 +65,8 @@ except Exception as e:
 try:
     if GROQ_API_KEY:
         # 1. For Chat/Text Generation
-        draft_llm = ChatGroq(groq_api_key=GROQ_API_KEY, model_name="llama-3.3-70b-versatile", temperature=0.3)
-        vision_llm = ChatGroq(groq_api_key=GROQ_API_KEY, model_name="llama-3.2-11b-vision-preview", temperature=0)
+        draft_llm = ChatGroq(groq_api_key=GROQ_API_KEY, model_name=GROQ_TEXT_MODEL, temperature=0.3)
+        vision_llm = ChatGroq(groq_api_key=GROQ_API_KEY, model_name=GROQ_VISION_MODEL, temperature=0)
         
         # 2. For Audio/Whisper (Direct Client)
         groq_client = Groq(api_key=GROQ_API_KEY)
