@@ -20,7 +20,9 @@ import time
 # ==========================================
 # API KEYS (Use Environment Variables)
 # ==========================================
-load_dotenv()  # loads backend/.env
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+load_dotenv()
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip()
 GROQ_TEXT_MODEL = os.getenv("GROQ_TEXT_MODEL", "openai/gpt-oss-120b").strip()
 GROQ_VISION_MODEL = os.getenv("GROQ_VISION_MODEL", "meta-llama/llama-4-scout-17b-16e-instruct").strip()
