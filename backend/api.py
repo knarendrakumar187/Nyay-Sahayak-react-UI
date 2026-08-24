@@ -62,16 +62,23 @@ except Exception as e:
     bns_db = None
 
 # --- AI MODEL SETUP (GROQ ONLY) ---
+CANDIDATE_TEXT_MODELS = [
+    GROQ_TEXT_MODEL,
+    "openai/gpt-oss-120b",
+    "qwen/qwen3.6-27b",
+    "openai/gpt-oss-20b",
+]
+TEXT_MODELS = list(dict.fromkeys([m for m in CANDIDATE_TEXT_MODELS if m]))
+
 try:
     if GROQ_API_KEY:
-        # 1. For Chat/Text Generation
+        # Primary Chat/Text and Vision models
         draft_llm = ChatGroq(groq_api_key=GROQ_API_KEY, model_name=GROQ_TEXT_MODEL, temperature=0.3)
         vision_llm = ChatGroq(groq_api_key=GROQ_API_KEY, model_name=GROQ_VISION_MODEL, temperature=0)
         
-        # 2. For Audio/Whisper (Direct Client)
+        # Audio/Whisper client
         groq_client = Groq(api_key=GROQ_API_KEY)
-        
-        print("Groq Models Ready!")
+        print(f"Groq Models Ready! Configured model: {GROQ_TEXT_MODEL}")
     else:
         draft_llm = None
         vision_llm = None
@@ -82,6 +89,53 @@ except Exception as e:
     draft_llm = None
     vision_llm = None
     groq_client = None
+
+
+def invoke_text_llm(prompt: str, temperature: float = 0.3):
+    """Invoke Groq text LLM with automatic fallback across supported models if model is not found."""
+    if not GROQ_API_KEY:
+        raise ValueError("Groq API Key missing or not set.")
+    
+    last_err = None
+    for model_name in TEXT_MODELS:
+        try:
+            llm = ChatGroq(groq_api_key=GROQ_API_KEY, model_name=model_name, temperature=temperature)
+            return llm.invoke(prompt)
+        except Exception as e:
+            last_err = e
+            err_str = str(e).lower()
+            if "model_not_found" in err_str or "404" in err_str or "does not exist" in err_str:
+                print(f"Warning: Model '{model_name}' not found. Falling back to next available model...")
+                continue
+            raise e
+    if last_err:
+        raise last_err
+
+
+async def astream_text_llm(prompt: str, temperature: float = 0.3):
+    """Stream Groq text LLM with automatic fallback across supported models if model is not found."""
+    if not GROQ_API_KEY:
+        yield "⚠️ Groq API Key missing or invalid."
+        return
+
+    last_err = None
+    for model_name in TEXT_MODELS:
+        try:
+            llm = ChatGroq(groq_api_key=GROQ_API_KEY, model_name=model_name, temperature=temperature)
+            async for chunk in llm.astream(prompt):
+                if chunk.content:
+                    yield chunk.content
+            return
+        except Exception as e:
+            last_err = e
+            err_str = str(e).lower()
+            if "model_not_found" in err_str or "404" in err_str or "does not exist" in err_str:
+                print(f"Warning: Model '{model_name}' not found during stream. Falling back to next model...")
+                continue
+            yield f"Error: {str(e)}"
+            return
+    if last_err:
+        yield f"Error: {str(last_err)}"
 
 
 def retrieve_bns_context(query: str, n_results: int = 5) -> str:
@@ -175,16 +229,8 @@ NEVER mix languages. If user asks in English, respond FULLY in English."""
         f"CONVERSATION HISTORY:\n{history}\n\nUSER: {message}\nAI:"
     )
     
-    try:
-        if not draft_llm:
-            yield "⚠️ Groq API Key missing or invalid."
-            return
-
-        async for chunk in draft_llm.astream(full_prompt):
-            if chunk.content:
-                yield chunk.content
-    except Exception as e:
-        yield f"Error: {str(e)}"
+    async for chunk in astream_text_llm(full_prompt, temperature=0.3):
+        yield chunk
 
 @app.post("/stream-chat")
 async def stream_chat(request: ChatRequest):
@@ -214,9 +260,9 @@ async def file_report_interview(data: ReportChatRequest):
     full_prompt = f"{system_instruction}\nHISTORY:\n{data.history}\nUser: {data.user_input}\nAI:"
     
     try:
-        if not draft_llm:
+        if not GROQ_API_KEY:
             return {"answer": "AI Offline"}
-        res = draft_llm.invoke(full_prompt)
+        res = invoke_text_llm(full_prompt)
         return {"answer": res.content, "status": "active"}
     except Exception as e:
         return {"error": str(e)}
@@ -258,7 +304,7 @@ IMPORTANT: Detect the language of the user's message and respond in THE SAME LAN
 - Match their language exactly.
 
 HISTORY:\n{history}\nUSER SAID: {user_text}"""
-        res = draft_llm.invoke(full_prompt)
+        res = invoke_text_llm(full_prompt)
         ai_response = res.content
 
         os.remove(temp_filename)
@@ -278,9 +324,9 @@ async def generate_legal_notice(data: NoticeRequest):
     Keys: sender_name, receiver_name, amount, reason, act
     """
     try:
-        if not draft_llm:
+        if not GROQ_API_KEY:
             return {"error": "AI Offline - Groq API key missing"}
-        res = draft_llm.invoke(extraction_prompt)
+        res = invoke_text_llm(extraction_prompt)
         content = res.content.replace("```json", "").replace("```", "").strip()
         details = json.loads(content)
         
