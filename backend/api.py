@@ -93,6 +93,11 @@ except Exception as e:
     groq_client = None
 
 
+MAX_TOKENS = 2048  # Prevent runaway token generation
+REPETITION_WINDOW = 10  # Number of recent chunks to check for repetition
+REPETITION_THRESHOLD = 8  # If this many of the last N chunks are identical, abort
+
+
 def invoke_text_llm(prompt: str, temperature: float = 0.3):
     """Invoke Groq text LLM with automatic fallback across supported models if model is not found."""
     if not GROQ_API_KEY:
@@ -101,7 +106,12 @@ def invoke_text_llm(prompt: str, temperature: float = 0.3):
     last_err = None
     for model_name in TEXT_MODELS:
         try:
-            llm = ChatGroq(groq_api_key=GROQ_API_KEY, model_name=model_name, temperature=temperature)
+            llm = ChatGroq(
+                groq_api_key=GROQ_API_KEY,
+                model_name=model_name,
+                temperature=temperature,
+                max_tokens=MAX_TOKENS,
+            )
             return llm.invoke(prompt)
         except Exception as e:
             last_err = e
@@ -114,8 +124,17 @@ def invoke_text_llm(prompt: str, temperature: float = 0.3):
         raise last_err
 
 
+def _is_repetition_loop(recent_chunks: list) -> bool:
+    """Detect if the model is stuck in a token repetition loop."""
+    if len(recent_chunks) < REPETITION_WINDOW:
+        return False
+    window = recent_chunks[-REPETITION_WINDOW:]
+    most_common = max(set(window), key=window.count)
+    return window.count(most_common) >= REPETITION_THRESHOLD
+
+
 async def astream_text_llm(prompt: str, temperature: float = 0.3):
-    """Stream Groq text LLM with automatic fallback across supported models if model is not found."""
+    """Stream Groq text LLM with automatic fallback and repetition-loop detection."""
     if not GROQ_API_KEY:
         yield "⚠️ Groq API Key missing or invalid."
         return
@@ -123,9 +142,20 @@ async def astream_text_llm(prompt: str, temperature: float = 0.3):
     last_err = None
     for model_name in TEXT_MODELS:
         try:
-            llm = ChatGroq(groq_api_key=GROQ_API_KEY, model_name=model_name, temperature=temperature)
+            llm = ChatGroq(
+                groq_api_key=GROQ_API_KEY,
+                model_name=model_name,
+                temperature=temperature,
+                max_tokens=MAX_TOKENS,
+            )
+            recent_chunks = []
             async for chunk in llm.astream(prompt):
                 if chunk.content:
+                    recent_chunks.append(chunk.content)
+                    if _is_repetition_loop(recent_chunks):
+                        print(f"Warning: Repetition loop detected (model: {model_name}). Stopping stream.")
+                        yield "\n\n*[Response truncated — repetitive output detected]*"
+                        return
                     yield chunk.content
             return
         except Exception as e:
